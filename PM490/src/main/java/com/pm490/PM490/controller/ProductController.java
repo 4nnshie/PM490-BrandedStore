@@ -48,9 +48,14 @@ public class ProductController {
         return productService.save(product);
     }
 
-    @PatchMapping
+    @PatchMapping("/updateproduct/{id}")
     public Product update(@PathVariable long id, @RequestBody ProductRequest product){
         return productService.update(id, product);
+    }
+
+    @PatchMapping("/deleteproduct/{id}")
+    public Boolean delete(@PathVariable long id){
+        return productService.delete(id);
     }
 
 }

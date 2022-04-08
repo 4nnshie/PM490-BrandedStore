@@ -88,6 +88,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public boolean delete(long id) {
-        return false;
+        Optional<Product> optionalProduct = Optional.ofNullable(productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product doesn't exist with id :" + id)));
+        Product product = optionalProduct.get();
+        if (optionalProduct.isPresent()) {
+            product.setStatus(ProductStatus.DELETED);
+            product = productRepository.save(product);
+            return !productRepository.existsById(id);
+        } else {
+            return false;
+        }
     }
 }

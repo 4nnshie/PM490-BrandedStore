@@ -49,10 +49,10 @@ public class ProductServiceImpl implements ProductService {
     public Product save(ProductRequest newProduct) {
         Vendor vendor = vendorRepository.findById(newProduct.getIdVendor())
                 .orElseThrow(() -> new ResourceNotFoundException("Vendor doesn't exist with id :" + newProduct.getIdVendor()));
-
+        System.out.println("#### NAME "+vendor.getFullName());
         Category category = categoryRepository.findById(newProduct.getIdCategory())
                 .orElseThrow(() -> new ResourceNotFoundException("Category doesn't exist with id :" + newProduct.getIdCategory()));
-
+        System.out.println("### CAT "+category.getName());
         Product product = new Product(newProduct.getName(),
                 newProduct.getColor(),
                 vendor,
@@ -85,8 +85,6 @@ public class ProductServiceImpl implements ProductService {
         }
         return product;
     }
-
-
 
     @Override
     public boolean delete(long id) {

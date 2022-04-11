@@ -15,13 +15,13 @@ public class Transaction {
     @ManyToOne
     private User user;
     @ManyToOne
-    private Payment payment;
+    private PaymentMethod paymentMethod;
     private String concept;
     private double amount;
     private LocalDate dateShipped;
 
-    public Transaction(Payment payment, String concept, double amount, LocalDate dateShipped) {
-        this.payment = payment;
+    public Transaction(PaymentMethod paymentMethod, String concept, double amount, LocalDate dateShipped) {
+        this.paymentMethod = paymentMethod;
         this.concept = concept;
         this.amount = amount;
         this.dateShipped = dateShipped;

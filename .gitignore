@@ -1,0 +1,6 @@
+PM490/target/*
+.idea/
+PM490/PM490.iml
+PM490/.idea/*
+PM490/src/main/resources/application.yml
+.DS_Store

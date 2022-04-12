@@ -1,0 +1,46 @@
+Index: src/main/java/com/pm490/PM490/model/OrderCart.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.pm490.PM490.model;\r\n\r\nimport lombok.*;\r\n\r\nimport javax.persistence.*;\r\nimport java.time.LocalDate;\r\nimport java.util.ArrayList;\r\nimport java.util.List;\r\n\r\n@Entity\r\n@Data\r\n@NoArgsConstructor\r\n\r\npublic class OrderCart {\r\n    @Id\r\n    @GeneratedValue\r\n    private long id;\r\n    @ManyToOne\r\n    private Customer customer;\r\n    @OneToOne\r\n    private ShoppingCart cart;\r\n    private LocalDate dateOrdered;\r\n    private LocalDate dateShipped;\r\n    @Enumerated(EnumType.STRING)\r\n    private PurchaseStatus status;\r\n\r\n    public OrderCart(Customer customer, ShoppingCart cart, LocalDate dateOrdered, LocalDate dateShipped, PurchaseStatus status) {\r\n        this.customer = customer;\r\n        this.cart = cart;\r\n        this.dateOrdered = dateOrdered;\r\n        this.dateShipped = dateShipped;\r\n        this.status = status;\r\n    }\r\n}
+===================================================================
+diff --git a/src/main/java/com/pm490/PM490/model/OrderCart.java b/src/main/java/com/pm490/PM490/model/OrderCart.java
+--- a/src/main/java/com/pm490/PM490/model/OrderCart.java	
++++ b/src/main/java/com/pm490/PM490/model/OrderCart.java	
+@@ -4,8 +4,6 @@
+ 
+ import javax.persistence.*;
+ import java.time.LocalDate;
+-import java.util.ArrayList;
+-import java.util.List;
+ 
+ @Entity
+ @Data
+@@ -22,9 +20,9 @@
+     private LocalDate dateOrdered;
+     private LocalDate dateShipped;
+     @Enumerated(EnumType.STRING)
+-    private PurchaseStatus status;
++    private OrderStatus status;
+ 
+-    public OrderCart(Customer customer, ShoppingCart cart, LocalDate dateOrdered, LocalDate dateShipped, PurchaseStatus status) {
++    public OrderCart(Customer customer, ShoppingCart cart, LocalDate dateOrdered, LocalDate dateShipped, OrderStatus status) {
+         this.customer = customer;
+         this.cart = cart;
+         this.dateOrdered = dateOrdered;
+Index: src/main/java/com/pm490/PM490/dto/ProductRequest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.pm490.PM490.dto;\r\n\r\nimport com.pm490.PM490.model.Category;\r\nimport com.pm490.PM490.model.ProductStatus;\r\nimport com.pm490.PM490.model.Vendor;\r\nimport lombok.Data;\r\n@Data\r\npublic class ProductRequest {\r\n\r\n    private String name;\r\n    private String color;\r\n    private long idVendor;\r\n    private ProductStatus status;\r\n    private int quantity;\r\n    private long idCategory;\r\n    private double price;\r\n\r\n}\r\n
+===================================================================
+diff --git a/src/main/java/com/pm490/PM490/dto/ProductRequest.java b/src/main/java/com/pm490/PM490/dto/ProductRequest.java
+--- a/src/main/java/com/pm490/PM490/dto/ProductRequest.java	
++++ b/src/main/java/com/pm490/PM490/dto/ProductRequest.java	
+@@ -1,8 +1,6 @@
+ package com.pm490.PM490.dto;
+ 
+-import com.pm490.PM490.model.Category;
+ import com.pm490.PM490.model.ProductStatus;
+-import com.pm490.PM490.model.Vendor;
+ import lombok.Data;
+ @Data
+ public class ProductRequest {

@@ -1,6 +1,5 @@
 package com.pm490.PM490.controller;
 
-import com.pm490.PM490.model.Role;
 import com.pm490.PM490.model.User;
 import com.pm490.PM490.model.UserStatus;
 import com.pm490.PM490.repository.UserRepository;

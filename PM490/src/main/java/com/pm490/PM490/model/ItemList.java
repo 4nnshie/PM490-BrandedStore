@@ -7,21 +7,18 @@ import javax.persistence.*;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+
 public class ItemList {
     @Id
     @GeneratedValue
     private long id;
     @ManyToOne
-    private ShoppingCart cart;
+    private User user;
     @ManyToOne
     private Product product;
     private int quantity;
-    private double subTotal;
-
-    public ItemList(ShoppingCart cart, Product product, int quantity, double subTotal) {
-        this.cart = cart;
-        this.product = product;
-        this.quantity = quantity;
-        this.subTotal = subTotal;
-    }
+    @Enumerated(EnumType.STRING)
+    private PurchaseStatus purchaseStatus;
+    private double total;
 }

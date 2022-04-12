@@ -26,6 +26,8 @@ public class User {
     private Role role;
     @Embedded
     private Address address;
+    @OneToMany
+    private List<ItemList> itemList;
 
     public User(String username, String email, String password) {
         this.username = username;

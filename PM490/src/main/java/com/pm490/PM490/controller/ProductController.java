@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
 @RequestMapping("/api/product")
-@PreAuthorize("hasAuthority('VENDOR')")
+
 public class ProductController {
     @Autowired
     private ProductService productService;
@@ -28,6 +28,7 @@ public class ProductController {
     @Autowired
     public ListMapper listMapper;
 
+    //@PreAuthorize("hasAnyRole('ADMIN','VENDOR','CUSTOMER','CLIENT')")//and #user.email == principal.username")
     @GetMapping
     public List<Product> findAll(){
         return productService.findAll();
@@ -43,6 +44,7 @@ public class ProductController {
         List<Product> products = productService.searchProductAdvanced(productAdv);
         return listMapper.mapList(products, ProductSearchDto.class);
     }
+    @PreAuthorize("hasAnyRole('ADMIN','VENDOR')")//and #user.email == principal.username")
     @PostMapping("/saveproduct")
     public Product save(@RequestBody ProductRequest product) {
         System.out.println(" #######CAT "+product.getIdCategory());

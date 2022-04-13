@@ -1,5 +1,5 @@
 package com.pm490.PM490.service.implementation;
-
+/*
 import com.pm490.PM490.dto.PaymentMethodRequest;
 import com.pm490.PM490.dto.ProductRequest;
 import com.pm490.PM490.model.*;
@@ -65,3 +65,4 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
     }
 
 }
+*/

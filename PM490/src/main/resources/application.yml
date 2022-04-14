@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: sample-springdata-service
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/pm490
+    username: root
+    password: password
+    driverClassName: com.mysql.cj.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+      ddl-auto: update
+
+    properties:
+      hibernate:
+      dialect: org.hibernate.dialect.MySQL8Dialect
+
+  security:
+    jwt:
+      secret: "pm490"
+      expiretime: 86400000

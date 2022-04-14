@@ -1,10 +1,18 @@
 package com.pm490.PM490.model;
 
-import javax.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+<<<<<<< Updated upstream
 import java.util.ArrayList;
 import java.util.List;
+=======
+import javax.persistence.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+>>>>>>> Stashed changes
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)

@@ -3,8 +3,12 @@ package com.pm490.PM490.model;
 import lombok.*;
 
 import javax.persistence.*;
+<<<<<<< Updated upstream
 import javax.validation.constraints.Size;
 @Entity
+=======
+
+>>>>>>> Stashed changes
 @Data
 @NoArgsConstructor
 @Embeddable

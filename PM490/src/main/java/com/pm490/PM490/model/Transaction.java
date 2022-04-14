@@ -13,13 +13,18 @@ public class Transaction {
     @GeneratedValue
     private long id;
     private User user;
+<<<<<<< Updated upstream
     private Payment payment;
+=======
+    @ManyToOne
+    private Payments payments;
+>>>>>>> Stashed changes
     private String concept;
     private double amount;
     private LocalDate dateShipped;
 
-    public Transaction(Payment payment, String concept, double amount, LocalDate dateShipped) {
-        this.payment = payment;
+    public Transaction(Payments payments, String concept, double amount, LocalDate dateShipped) {
+        this.payments = payments;
         this.concept = concept;
         this.amount = amount;
         this.dateShipped = dateShipped;

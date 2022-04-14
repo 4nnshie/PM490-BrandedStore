@@ -12,13 +12,10 @@ public class Transaction {
     @Id
     @GeneratedValue
     private long id;
+    @ManyToOne
     private User user;
-<<<<<<< Updated upstream
-    private Payment payment;
-=======
     @ManyToOne
     private Payments payments;
->>>>>>> Stashed changes
     private String concept;
     private double amount;
     private LocalDate dateShipped;

@@ -44,7 +44,7 @@ public class ProductController {
         List<Product> products = productService.searchProductAdvanced(productAdv);
         return listMapper.mapList(products, ProductSearchDto.class);
     }
-    @PreAuthorize("hasAnyRole('ADMIN','VENDOR')")//and #user.email == principal.username")
+    @PreAuthorize("hasAuthority('VENDOR')")//and #user.email == principal.username")
     @PostMapping("/saveproduct")
     public Product save(@RequestBody ProductRequest product) {
         System.out.println(" #######CAT "+product.getIdCategory());

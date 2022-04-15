@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import {Link, Redirect, Route, Switch} from "react-router-dom";
+
 import withContext from "../withContext";
+import ProductList from "./ProductList";
+import SignUp from "./SignUp";
 
 class Login extends Component {
     constructor(props) {
@@ -9,6 +12,7 @@ class Login extends Component {
             username: "",
             password: ""
         };
+        this.routerRef = React.createRef();
     }
 
     handleChange = e => this.setState({ [e.target.name]: e.target.value, error: "" });
@@ -68,10 +72,19 @@ class Login extends Component {
                                 >
                                     Submit
                                 </button>
+
                             </div>
                         </div>
                     </div>
                 </form>
+                <div className="columns is-mobile is-centered">
+                    <Route ref={this.routerRef}>
+                        <Link to="/signUp" className="navbar-item">
+                            New User?
+                        </Link>
+
+                    </Route>
+                </div>
             </>
         ) : (
             <Redirect to="/products" />

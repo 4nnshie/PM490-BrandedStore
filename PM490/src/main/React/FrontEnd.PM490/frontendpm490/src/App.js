@@ -1,13 +1,13 @@
-import React, { Component } from "react";
-import { Switch, Route, Link, BrowserRouter as Router } from "react-router-dom";
+import React, {Component} from "react";
+import {Switch, Route, Link, BrowserRouter as Router} from "react-router-dom";
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
-//import AddProduct from './components/AddProduct';
+import CreateProduct from './components/CreateProduct';
 //import Cart from './components/Cart';
 import Login from './components/Login';
 import ProductList from './components/ProductList';
-
+import SignUp from "./components/SignUp";
 import Context from "./Context";
 
 export default class App extends Component {
@@ -27,40 +27,52 @@ export default class App extends Component {
 
         const products = await axios.get('http://localhost:8080/api/product');
         user = user ? JSON.parse(user) : null;
-        cart = cart? JSON.parse(cart) : {};
+        cart = cart ? JSON.parse(cart) : {};
 
-        this.setState({ user,  products: products.data, cart });
+        this.setState({user, products: products.data, cart});
     }
 
     login = async (username, password) => {
         const res = await axios.post(
             'http://localhost:8080/api/auth/signin',
-            { username, password },
+            {username, password},
         ).catch((res) => {
-            return { status: 401, message: 'Unauthorized' }
+            return {status: 401, message: 'Unauthorized'}
         })
 
         if(res.status === 200) {
             const { username } = jwt_decode(res.data.accessToken)
-            console.log("###################"+res.data.role);
+            //console.log("###################"+res.data.role);
             const user = {
                 id: res.data.id,
-                username,
+                username : res.data.username,
+                role: res.data.role,
                 token: res.data.accessToken,
-                //accessLevel: email === 'admin@example.com' ? 0 : 1
+               // accessLevel: email === 'admin@example.com' ? 0 : 1
+                // role: res.data.role === 'VENDOR' ? 0 : 1
+                 //role: res.data.role === 'VENDOR' ? 0 : 1
             }
 
-            this.setState({ user });
+            this.setState({user});
             localStorage.setItem("user", JSON.stringify(user));
+            console.log("###################"+user.token);
             return true;
         } else {
             return false;
         }
+
     }
 
+    createProduct = (product, callback) => {
+        /*
+        let products = this.state.products.slice();
+        products.push(product);
+        this.setState({ products }, () => callback && callback());
+         */
+    };
     logout = e => {
         e.preventDefault();
-        this.setState({ user: null });
+        this.setState({user: null});
         localStorage.removeItem("user");
     };
 
@@ -72,7 +84,8 @@ export default class App extends Component {
                     //removeFromCart: this.removeFromCart,
                     //addToCart: this.addToCart,
                     login: this.login,
-                    //addProduct: this.addProduct,
+                    //signup: this.signUp,
+                    createProduct: this.createProduct,
                     //clearCart: this.clearCart,
                     checkout: this.checkout
                 }}
@@ -94,7 +107,7 @@ export default class App extends Component {
                                     data-target="navbarBasicExample"
                                     onClick={e => {
                                         e.preventDefault();
-                                        this.setState({ showMenu: !this.state.showMenu });
+                                        this.setState({showMenu: !this.state.showMenu});
                                     }}
                                 >
                                     <span aria-hidden="true"></span>
@@ -108,19 +121,19 @@ export default class App extends Component {
                                 <Link to="/products" className="navbar-item">
                                     Products
                                 </Link>
-                                {this.state.user && this.state.user.accessLevel < 1 && (
-                                    <Link to="/add-product" className="navbar-item">
-                                        Add Product
+                                {this.state.user && this.state.user.role === "VENDOR" && (
+                                    <Link to="/create-product" className="navbar-item">
+                                        Create Product
                                     </Link>
                                 )}
                                 <Link to="/cart" className="navbar-item">
                                     ShoppingCart
                                     <span
                                         className="tag is-primary"
-                                        style={{ marginLeft: "5px" }}
+                                        style={{marginLeft: "5px"}}
                                     >
-                    { Object.keys(this.state.cart).length }
-                  </span>
+                                        {Object.keys(this.state.cart).length}
+                                    </span>
                                 </Link>
                                 {!this.state.user ? (
                                     <Link to="/login" className="navbar-item">
@@ -130,13 +143,15 @@ export default class App extends Component {
                                     <Link to="/" onClick={this.logout} className="navbar-item">
                                         Logout
                                     </Link>
+
                                 )}
                             </div>
                         </nav>
                         <Switch>
                             <Route exact path="/" component={ProductList} />
+                            <Route exact path="/create-product" component={CreateProduct}/>
                             <Route exact path="/login" component={Login} />
-
+                            <Route exact path="/signup" component={SignUp}/>
                             <Route exact path="/products" component={ProductList} />
                         </Switch>
                     </div>

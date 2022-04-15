@@ -4,11 +4,13 @@ package com.pm490.PM490.service;
 import com.pm490.PM490.dto.ProductRequest;
 import com.pm490.PM490.dto.ProductSearchDto;
 import com.pm490.PM490.model.Product;
+import com.pm490.PM490.model.ProductStatus;
 
 import java.util.List;
 
 public interface ProductService {
     List<Product> findAll();
+    List<Product> findAllStatus(ProductStatus status);
     List<Product> searchProduct(String searchPro);
     List<Product> searchProductAdvanced(ProductSearchDto productSearchDto);
     Product save(ProductRequest product);

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.mail.MessagingException;
 import java.io.IOException;
 
+
 @RestController
 @RequestMapping("/api/email")
 public class EmailController {
@@ -19,7 +20,13 @@ public class EmailController {
 
     @PostMapping(value = "/sendemail")
     public String sendEmail(@RequestBody EmailDto email) throws MessagingException, IOException {
+
         emailService.sendEmail(email);
+
         return "Email sent successfully";
+
     }
+
 }
+
+

@@ -8,5 +8,5 @@ public class EmailDto {
     private String toAddress;
     private String mailSubject;
     private String bodyText;
-    private String AttachFileAddress;
+    private String attachFileAddress;
 }

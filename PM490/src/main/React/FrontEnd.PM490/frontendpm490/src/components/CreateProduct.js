@@ -77,7 +77,7 @@ class CreateProduct extends Component {
         console.log("###################"+user.token);
         console.log("----"+user.username);
 
-        return !(user && user.role < 1) ? (
+        return !(user && user.role === "VENDOR" ) ? (
             <Redirect to="/" />
         ) : (
             <>

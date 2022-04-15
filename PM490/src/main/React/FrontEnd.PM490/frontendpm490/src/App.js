@@ -49,7 +49,8 @@ export default class App extends Component {
                 role: res.data.role,
                 token: res.data.accessToken,
                // accessLevel: email === 'admin@example.com' ? 0 : 1
-                 role: res.data.role === 'VENDOR' ? 0 : 1
+                // role: res.data.role === 'VENDOR' ? 0 : 1
+                 //role: res.data.role === 'VENDOR' ? 0 : 1
             }
 
             this.setState({user});
@@ -120,7 +121,7 @@ export default class App extends Component {
                                 <Link to="/products" className="navbar-item">
                                     Products
                                 </Link>
-                                {this.state.user && this.state.user.role < 1 && (
+                                {this.state.user && this.state.user.role === "VENDOR" && (
                                     <Link to="/create-product" className="navbar-item">
                                         Create Product
                                     </Link>

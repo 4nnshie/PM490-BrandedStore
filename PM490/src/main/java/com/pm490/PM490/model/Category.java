@@ -9,13 +9,10 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
-
+@AllArgsConstructor
 public class Category {
     @Id
     @GeneratedValue
     private long id;
     private String name;
-    public Category(String name) {
-        this.name = name;
-    }
 }

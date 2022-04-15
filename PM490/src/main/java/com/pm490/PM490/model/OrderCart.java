@@ -16,7 +16,7 @@ public class OrderCart {
     @GeneratedValue
     private long id;
     @ManyToOne
-    private Customer customer;
+    private User customer;
     private LocalDate dateOrdered;
     private LocalDate dateShipped;
     @Enumerated(EnumType.STRING)
@@ -24,15 +24,11 @@ public class OrderCart {
     @ManyToMany
     private List<ItemList> items;
 
-    public OrderCart(Customer customer, LocalDate dateOrdered, LocalDate dateShipped, PurchaseStatus status, List<ItemList> items) {
+    public OrderCart(User customer, LocalDate dateOrdered, LocalDate dateShipped, PurchaseStatus status, List<ItemList> items) {
         this.customer = customer;
         this.dateOrdered = dateOrdered;
         this.dateShipped = dateShipped;
         this.status = status;
         this.items = items;
     }
-
-//    public void setItems(List<ItemList> items) {
-//        this.items = items;
-//    }
 }

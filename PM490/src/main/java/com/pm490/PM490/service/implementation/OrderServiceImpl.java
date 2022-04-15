@@ -1,11 +1,10 @@
 package com.pm490.PM490.service.implementation;
 
 import com.pm490.PM490.dto.OrderRequest;
-import com.pm490.PM490.dto.OrderSearchDto;
 import com.pm490.PM490.model.*;
-import com.pm490.PM490.repository.CustomerRepository;
 import com.pm490.PM490.repository.ItemListRepository;
 import com.pm490.PM490.repository.OrderRepository;
+import com.pm490.PM490.repository.UserRepository;
 import com.pm490.PM490.service.CurrentUserService;
 import com.pm490.PM490.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private ItemListRepository itemListRepository;
     @Autowired
-    private CustomerRepository customerRepository;
+    private UserRepository customerRepository;
 
     @Override
     public List<OrderCart> showAll() {
@@ -41,10 +40,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderCart save(OrderRequest newOrder) throws RuntimeException {
-        User user = currentUserService.findLoggedUser();
-        Customer customer = customerRepository.findById(user.getId())
-                .orElseThrow(() -> new ResourceNotFoundException("Customer doesn't exist with id :" +user.getId()));
-        List<ItemList> items = itemListRepository.findByUserAndCreated(user.getId());
+        User customer = currentUserService.findLoggedUser();
+        List<ItemList> items = itemListRepository.findByUserAndCreated(customer.getId());
 
         // VALIDATE
         if(items.isEmpty()) {
@@ -58,7 +55,7 @@ public class OrderServiceImpl implements OrderService {
                 items);
         OrderCart createdOrder = orderRepository.save(order);
         for(ItemList item : items) {
-            item.setUser(user);
+            item.setUser(customer);
             item.setPurchaseStatus(PurchaseStatus.ORDERED);
             itemListRepository.save(item);
         }

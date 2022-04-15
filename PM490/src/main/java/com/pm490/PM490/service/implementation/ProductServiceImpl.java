@@ -6,10 +6,10 @@ import com.pm490.PM490.dto.ProductSearchDto;
 import com.pm490.PM490.model.Category;
 import com.pm490.PM490.model.Product;
 import com.pm490.PM490.model.ProductStatus;
-import com.pm490.PM490.model.Vendor;
+import com.pm490.PM490.model.User;
 import com.pm490.PM490.repository.CategoryRepository;
 import com.pm490.PM490.repository.ProductRepository;
-import com.pm490.PM490.repository.VendorRepository;
+import com.pm490.PM490.repository.UserRepository;
 import com.pm490.PM490.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -26,7 +26,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductRepository productRepository;
 
     @Autowired
-    public VendorRepository vendorRepository;
+    public UserRepository vendorRepository;
 
     @Autowired
     public CategoryRepository categoryRepository;
@@ -53,7 +53,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product save(ProductRequest newProduct) {
-        Vendor vendor = vendorRepository.findById(newProduct.getIdVendor())
+        User vendor = vendorRepository.findById(newProduct.getIdVendor())
                 .orElseThrow(() -> new ResourceNotFoundException("Vendor doesn't exist with id :" + newProduct.getIdVendor()));
         System.out.println("#### NAME "+vendor.getFullName());
         Category category = categoryRepository.findById(newProduct.getIdCategory())
@@ -77,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
         if (optionalProduct.isPresent()) {
             product.setName(editedProduct.getName());
             product.setColor(editedProduct.getColor());
-            Vendor newVendor = vendorRepository.findById(editedProduct.getIdVendor())
+            User newVendor = vendorRepository.findById(editedProduct.getIdVendor())
                     .orElseThrow(() -> new ResourceNotFoundException("Vendor doesn't exist with id :" + editedProduct.getIdVendor()));
             product.setVendor(newVendor);
             product.setStatus(editedProduct.getStatus());

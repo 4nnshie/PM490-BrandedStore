@@ -1,6 +1,8 @@
 package com.pm490.PM490.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
+
 import lombok.*;
 
 import java.util.*;
@@ -20,12 +22,11 @@ public class User {
     private String fullName;
     @Enumerated(EnumType.STRING)
     private UserStatus status;
-    private String phone;
+    private Integer phone;
     private String email;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @Embedded
-    private Address address;
+    private String address;
     @OneToMany
     private List<ItemList> itemList;
 

@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import com.pm490.PM490.model.Role;
 import com.pm490.PM490.model.User;
+import com.pm490.PM490.model.UserStatus;
 import com.pm490.PM490.payload.request.LoginRequest;
 import com.pm490.PM490.payload.request.SignupRequest;
 import com.pm490.PM490.payload.response.JwtResponse;
@@ -71,25 +72,16 @@ public class AuthController {
                 signUpRequest.getEmail(),
                 encoder.encode(signUpRequest.getPassword()));
 
-        String strRole = signUpRequest.getRole();
-        if (strRole.equals(null) || strRole == null) {
+        if (!Role.VENDOR.name().equals(signUpRequest.getRole())) {
             user.setRole(Role.CUSTOMER);
         } else {
-            switch (strRole) {
-                case "admin":
-                    user.setRole(Role.ADMIN);
-                    break;
-                case "client":
-                    user.setRole(Role.CLIENT);
-                    break;
-                case "vendor":
-                    user.setRole(Role.VENDOR);
-                    break;
-                case "customer":
-                    user.setRole(Role.CUSTOMER);
-                    break;
-            }
+            user.setRole(Role.VENDOR);
+            user.setStatus(UserStatus.INACTIVE);
         }
+
+        user.setAddress(signUpRequest.getAddress());
+        user.setPhone(signUpRequest.getPhone());
+
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

@@ -4,6 +4,7 @@ package com.pm490.PM490.controller;
 import com.pm490.PM490.dto.ProductRequest;
 import com.pm490.PM490.dto.ProductSearchDto;
 import com.pm490.PM490.model.Product;
+import com.pm490.PM490.model.ProductStatus;
 import com.pm490.PM490.service.ProductService;
 import com.pm490.PM490.util.ListMapper;
 
@@ -28,10 +29,14 @@ public class ProductController {
     @Autowired
     public ListMapper listMapper;
 
-    //@PreAuthorize("hasAnyRole('ADMIN','VENDOR','CUSTOMER','CLIENT')")//and #user.email == principal.username")
-    @GetMapping
+    @PreAuthorize("hasAuthority('ADMIN')")
     public List<Product> findAll(){
         return productService.findAll();
+    }
+
+    @GetMapping
+    public List<Product> findAllApproved(){
+        return productService.findAllStatus(ProductStatus.APPROVED);
     }
 
     @GetMapping("/SearchName")
@@ -44,7 +49,7 @@ public class ProductController {
         List<Product> products = productService.searchProductAdvanced(productAdv);
         return listMapper.mapList(products, ProductSearchDto.class);
     }
-    @PreAuthorize("hasAuthority('VENDOR')")//and #user.email == principal.username")
+    @PreAuthorize("hasAuthority('VENDOR') or hasAuthority('ADMIN')")//and #user.email == principal.username")
     @PostMapping("/saveproduct")
     public Product save(@RequestBody ProductRequest product) {
         System.out.println(" #######CAT "+product.getIdCategory());

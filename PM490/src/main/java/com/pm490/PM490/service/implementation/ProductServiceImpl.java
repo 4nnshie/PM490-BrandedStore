@@ -37,6 +37,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> findAllStatus(ProductStatus status) {
+        return productRepository.findAllStatus(status);
+    }
+
+    @Override
     public List<Product> searchProduct(String searchPro) {
         return productRepository.searchProduct(searchPro);
     }

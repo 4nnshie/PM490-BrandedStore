@@ -20,11 +20,8 @@ public class EmailController {
 
     @PostMapping(value = "/sendemail")
     public String sendEmail(@RequestBody EmailDto email) throws MessagingException, IOException {
-
         emailService.sendEmail(email);
-
         return "Email sent successfully";
-
     }
 
 }

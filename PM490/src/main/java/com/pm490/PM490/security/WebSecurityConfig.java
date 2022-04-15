@@ -74,6 +74,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/user/**").permitAll().and()
                 .authorizeRequests()
                 .antMatchers( "/api/product/**").permitAll()
+                .antMatchers( "/api/category/**").permitAll()
                 // Our private endpoints
 //                .antMatchers(HttpMethod.GET,"/api/product/all").access("ADMIN")
 //                .antMatchers(HttpMethod.POST,"/api/product/saveproduct").access("VENDOR")

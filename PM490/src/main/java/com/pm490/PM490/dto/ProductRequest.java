@@ -1,9 +1,7 @@
 // Author Angie
 package com.pm490.PM490.dto;
 
-import com.pm490.PM490.model.Category;
 import com.pm490.PM490.model.ProductStatus;
-import com.pm490.PM490.model.Vendor;
 import lombok.Data;
 @Data
 public class ProductRequest {

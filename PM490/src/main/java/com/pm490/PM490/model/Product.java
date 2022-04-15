@@ -19,7 +19,7 @@ public class Product {
     private String name;
     private String color;
     @ManyToOne
-    private Vendor vendor;
+    private User vendor;
     @Enumerated(EnumType.STRING)
     private ProductStatus status;
     private int quantity;
@@ -28,8 +28,9 @@ public class Product {
     private double price;
     @OneToMany
     private List<ItemList> itemList;
+    private String description;
 
-    public Product(String name, String color, Vendor vendor, ProductStatus status, int quantity, Category category, double price) {
+    public Product(String name, String color, User vendor, ProductStatus status, int quantity, Category category, double price) {
         this.name = name;
         this.color = color;
         this.vendor = vendor;

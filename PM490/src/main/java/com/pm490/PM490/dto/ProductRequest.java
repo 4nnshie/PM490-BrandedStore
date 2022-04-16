@@ -8,7 +8,6 @@ public class ProductRequest {
 
     private String name;
     private String color;
-    private long idVendor;
     private ProductStatus status;
     private int quantity;
     private long idCategory;

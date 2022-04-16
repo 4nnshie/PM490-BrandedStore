@@ -5,12 +5,14 @@ import com.pm490.PM490.dto.ProductRequest;
 import com.pm490.PM490.dto.ProductSearchDto;
 import com.pm490.PM490.model.Product;
 import com.pm490.PM490.model.ProductStatus;
+import com.pm490.PM490.model.User;
+import com.pm490.PM490.repository.UserRepository;
+import com.pm490.PM490.service.CurrentUserService;
 import com.pm490.PM490.service.ProductService;
 import com.pm490.PM490.util.ListMapper;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -24,10 +26,17 @@ public class ProductController {
     private ProductService productService;
 
     @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    CurrentUserService currentUserService;
+
+    @Autowired
     public ModelMapper mapper;
 
     @Autowired
     public ListMapper listMapper;
+
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/all")
@@ -40,28 +49,32 @@ public class ProductController {
         return productService.findAllStatus(ProductStatus.APPROVED);
     }
 
-    @GetMapping("/SearchName")
-    public List<Product> searchProduct(@RequestParam String searchPro) {
-        return productService.searchProduct(searchPro);
+    @PreAuthorize("hasAuthority('VENDOR') or hasAuthority('ADMIN')")
+    @GetMapping("/mycreatedproducts")
+    public List<Product> findAllByVendor(){
+        User user = currentUserService.findLoggedUser();
+        return productService.findAllByVendor(user);
     }
 
-    @GetMapping("/advancesearch")
-    public List<Product> searchProductAdvanced(@RequestParam ProductSearchDto productAdv){
+    @PostMapping("/advancesearch")
+    public List<Product> searchProductAdvanced(@RequestBody ProductSearchDto productAdv){
+        System.out.println("#########"+productAdv);
         List<Product> products = productService.searchProductAdvanced(productAdv);
         return listMapper.mapList(products, ProductSearchDto.class);
     }
-    @PreAuthorize("hasAuthority('VENDOR') or hasAuthority('ADMIN')")//and #user.email == principal.username")
+    @PreAuthorize("hasAuthority('VENDOR') or hasAuthority('ADMIN')")
     @PostMapping("/saveproduct")
     public Product save(@RequestBody ProductRequest product) {
-        System.out.println(" #######CAT "+product.getIdCategory());
-        return productService.save(product);
+        User user = currentUserService.findLoggedUser();
+        return productService.save(product, user);
     }
-
+    @PreAuthorize("hasAuthority('VENDOR') or hasAuthority('ADMIN')")
     @PatchMapping("/updateproduct/{id}")
     public Product update(@PathVariable long id, @RequestBody ProductRequest product){
-        return productService.update(id, product);
+        User user = currentUserService.findLoggedUser();
+        return productService.update(id, product, user);
     }
-
+    @PreAuthorize("hasAuthority('VENDOR') or hasAuthority('ADMIN')")
     @PatchMapping("/deleteproduct/{id}")
     public Boolean delete(@PathVariable long id){
         return productService.delete(id);

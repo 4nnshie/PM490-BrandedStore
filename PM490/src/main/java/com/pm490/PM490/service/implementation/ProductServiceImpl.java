@@ -3,10 +3,7 @@ package com.pm490.PM490.service.implementation;
 
 import com.pm490.PM490.dto.ProductRequest;
 import com.pm490.PM490.dto.ProductSearchDto;
-import com.pm490.PM490.model.Category;
-import com.pm490.PM490.model.Product;
-import com.pm490.PM490.model.ProductStatus;
-import com.pm490.PM490.model.User;
+import com.pm490.PM490.model.*;
 import com.pm490.PM490.repository.CategoryRepository;
 import com.pm490.PM490.repository.ProductRepository;
 import com.pm490.PM490.repository.UserRepository;
@@ -42,26 +39,81 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> searchProduct(String searchPro) {
-        return productRepository.searchProduct(searchPro);
+    public List<Product> findAllByVendor(User vendor) {
+        return productRepository.findAllByVendor(vendor);
     }
+
 
     @Override
     public List<Product> searchProductAdvanced(ProductSearchDto productSearchDto) {
-        return productRepository.searchProductAdvanced(productSearchDto.getName(), productSearchDto.getColor(), productSearchDto.getIdVendor(), productSearchDto.getIdCategory());
+        User vendor;
+        Category category;
+        //color vendor category*
+        if (productSearchDto.getIdVendor() != 0 &&
+                productSearchDto.getIdCategory() != 0 &&
+                productSearchDto.getColor() != null) {
+            vendor = vendorRepository.findById(productSearchDto.getIdVendor())
+                    .orElseThrow(() -> new ResourceNotFoundException("vendor doesn't exist "));
+            category = categoryRepository.findById(productSearchDto.getIdCategory())
+                    .orElseThrow(() -> new ResourceNotFoundException("Category doesn't exist with id "));
+            return productRepository.searchProductAdvanced(productSearchDto.getName(), productSearchDto.getColor(), vendor, category);
+            //vendor category*
+        } else if (productSearchDto.getIdVendor() != 0 &&
+                productSearchDto.getIdCategory() != 0 &&
+                productSearchDto.getColor() == null) {
+            vendor = vendorRepository.findById(productSearchDto.getIdVendor())
+                    .orElseThrow(() -> new ResourceNotFoundException("vendor doesn't exist "));
+            category = categoryRepository.findById(productSearchDto.getIdCategory())
+                    .orElseThrow(() -> new ResourceNotFoundException("Category doesn't exist with id "));
+            return productRepository.searchProductAdvanced(productSearchDto.getName(), vendor, category);
+            //vendor color*
+        } else if (productSearchDto.getIdVendor() != 0 &&
+                productSearchDto.getIdCategory() == 0 &&
+                productSearchDto.getColor() != null) {
+            vendor = vendorRepository.findById(productSearchDto.getIdVendor())
+                    .orElseThrow(() -> new ResourceNotFoundException("vendor doesn't exist "));
+            return productRepository.searchProductAdvanced(productSearchDto.getName(), productSearchDto.getColor(), vendor);
+        }
+        // category color*
+        else if (productSearchDto.getIdVendor() == 0 &&
+                productSearchDto.getIdCategory() != 0 &&
+                productSearchDto.getColor() != null) {
+            category = categoryRepository.findById(productSearchDto.getIdCategory())
+                    .orElseThrow(() -> new ResourceNotFoundException("Category doesn't exist with id "));
+            return productRepository.searchProductAdvanced(productSearchDto.getName(), productSearchDto.getColor(), category);
+            //color*
+        } else if (productSearchDto.getIdVendor() == 0 &&
+                productSearchDto.getIdCategory() == 0 &&
+                productSearchDto.getColor() != null) {
+            return productRepository.searchProductAdvanced(productSearchDto.getName(), productSearchDto.getColor());
+            //category
+        } else if (productSearchDto.getIdVendor() == 0 &&
+                productSearchDto.getIdCategory() != 0 &&
+                productSearchDto.getColor() == null) {
+            category = categoryRepository.findById(productSearchDto.getIdCategory())
+                    .orElseThrow(() -> new ResourceNotFoundException("Category doesn't exist with id "));
+            return productRepository.searchProductAdvanced(productSearchDto.getName(), category);
+            //vendor
+        } else if (productSearchDto.getIdVendor() != 0 &&
+                productSearchDto.getIdCategory() == 0 &&
+                productSearchDto.getColor() == null) {
+            vendor = vendorRepository.findById(productSearchDto.getIdVendor())
+                    .orElseThrow(() -> new ResourceNotFoundException("vendor doesn't exist "));
+            return productRepository.searchProductAdvanced(productSearchDto.getName(), vendor);
+        }
+            return productRepository.searchProductAdvanced(productSearchDto.getName());
+
     }
 
     @Override
-    public Product save(ProductRequest newProduct) {
-        User vendor = vendorRepository.findById(newProduct.getIdVendor())
-                .orElseThrow(() -> new ResourceNotFoundException("Vendor doesn't exist with id :" + newProduct.getIdVendor()));
-        System.out.println("#### NAME "+vendor.getFullName());
+    public Product save(ProductRequest newProduct, User user) {
+
         Category category = categoryRepository.findById(newProduct.getIdCategory())
                 .orElseThrow(() -> new ResourceNotFoundException("Category doesn't exist with id :" + newProduct.getIdCategory()));
-        System.out.println("### CAT "+category.getName());
+        System.out.println("### CAT " + category.getName());
         Product product = new Product(newProduct.getName(),
                 newProduct.getColor(),
-                vendor,
+                user,
                 ProductStatus.NOTAPPROVED,
                 newProduct.getQuantity(),
                 category,
@@ -70,16 +122,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Product update(long id, ProductRequest editedProduct) {
+    public Product update(long id, ProductRequest editedProduct, User user) {
         Optional<Product> optionalProduct = Optional.ofNullable(productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product doesn't exist with id :" + id)));
         Product product = optionalProduct.get();
         if (optionalProduct.isPresent()) {
             product.setName(editedProduct.getName());
             product.setColor(editedProduct.getColor());
-            User newVendor = vendorRepository.findById(editedProduct.getIdVendor())
-                    .orElseThrow(() -> new ResourceNotFoundException("Vendor doesn't exist with id :" + editedProduct.getIdVendor()));
-            product.setVendor(newVendor);
+            product.setVendor(user);
             product.setStatus(editedProduct.getStatus());
             product.setQuantity(editedProduct.getQuantity());
             Category newCategory = categoryRepository.findById(editedProduct.getIdCategory())

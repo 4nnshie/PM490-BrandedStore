@@ -66,9 +66,11 @@ public class ReportServiceImpl implements ReportService {
     @Override
     public String generateReport(LocalDate localDate, String fileFormat) throws JRException, IOException {
         List<Transaction> transactions = transactionRepository.findAll();
+
         //load the file and compile it
         String resourceLocation = "classpath:jasper_template.jrxml";
         JasperPrint jasperPrint = getJasperPrint(transactions, resourceLocation);
+
         //create a folder to store the report
         String fileName = "/"+"transaction.pdf";
         Path uploadPath = getUploadPath(fileFormat, jasperPrint, fileName);
@@ -81,5 +83,4 @@ public class ReportServiceImpl implements ReportService {
     public List<Transaction> findAllTransactions() {
         return transactionRepository.findAll();
     }
-
 }

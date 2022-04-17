@@ -60,15 +60,15 @@ public class ReportServiceImpl implements ReportService {
     }
 
     private String getPdfFileLink(String uploadPath){
-        return uploadPath+"/"+"products.pdf";
+        return uploadPath+"/"+"transaction.pdf";
     }
 
     @Override
     public String generateReport(LocalDate localDate, String fileFormat) throws JRException, IOException {
-        List<Transaction> phoneCollection = transactionRepository.findAll();
+        List<Transaction> transactions = transactionRepository.findAll();
         //load the file and compile it
-        String resourceLocation = "classpath:montly_transaction_report_jasper_template.jrxml";
-        JasperPrint jasperPrint = getJasperPrint(phoneCollection,resourceLocation);
+        String resourceLocation = "classpath:jasper_template.jrxml";
+        JasperPrint jasperPrint = getJasperPrint(transactions, resourceLocation);
         //create a folder to store the report
         String fileName = "/"+"transaction.pdf";
         Path uploadPath = getUploadPath(fileFormat, jasperPrint, fileName);

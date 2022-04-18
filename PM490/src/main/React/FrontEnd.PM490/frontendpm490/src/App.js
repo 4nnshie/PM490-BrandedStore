@@ -4,7 +4,7 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 
 import CreateProduct from './components/CreateProduct';
-//import Cart from './components/Cart';
+import Cart from './components/Cart';
 import Login from './components/Login';
 import ProductList from './components/ProductList';
 import SignUp from "./components/SignUp";
@@ -25,12 +25,62 @@ export default class App extends Component {
         let user = localStorage.getItem("user");
         let cart = localStorage.getItem("cart");
 
-        const products = await axios.get('http://localhost:8080/api/product');
+        const products = await axios.get('http://localhost:8080/api/product/');
         user = user ? JSON.parse(user) : null;
         cart = cart ? JSON.parse(cart) : {};
 
         this.setState({user, products: products.data, cart});
     }
+    addToCart = cartItem => {
+        let cart = this.state.cart;
+        if (cart[cartItem.id]) {
+            cart[cartItem.id].amount += cartItem.amount;
+        } else {
+            cart[cartItem.id] = cartItem;
+        }
+        if (cart[cartItem.id].amount > cart[cartItem.id].product.stock) {
+            cart[cartItem.id].amount = cart[cartItem.id].product.stock;
+        }
+        localStorage.setItem("cart", JSON.stringify(cart));
+        this.setState({ cart });
+    };
+
+    removeFromCart = cartItemId => {
+        let cart = this.state.cart;
+        delete cart[cartItemId];
+        localStorage.setItem("cart", JSON.stringify(cart));
+        this.setState({ cart });
+    };
+
+    clearCart = () => {
+        let cart = {};
+        localStorage.removeItem("cart");
+        this.setState({ cart });
+    };
+
+    checkout = () => {
+        if (!this.state.user) {
+            this.routerRef.current.history.push("/PaymentMethod");
+            return;
+        }
+
+        const cart = this.state.cart;
+
+        const products = this.state.products.map(p => {
+            if (cart[p.name]) {
+                p.stock = p.stock - cart[p.name].amount;
+
+                axios.put(
+                    `http://localhost:8080/api/product/${p.id}`,
+                    { ...p },
+                )
+            }
+            return p;
+        });
+
+        this.setState({ products });
+        this.clearCart();
+    };
 
     login = async (username, password) => {
         const res = await axios.post(
@@ -64,11 +114,11 @@ export default class App extends Component {
     }
 
     createProduct = (product, callback) => {
-        /*
+
         let products = this.state.products.slice();
         products.push(product);
         this.setState({ products }, () => callback && callback());
-         */
+
     };
     logout = e => {
         e.preventDefault();
@@ -83,10 +133,13 @@ export default class App extends Component {
                     ...this.state,
                     //removeFromCart: this.removeFromCart,
                     //addToCart: this.addToCart,
+                    removeFromCart: this.removeFromCart,
+                    addToCart: this.addToCart,
                     login: this.login,
                     //signup: this.signUp,
                     createProduct: this.createProduct,
                     //clearCart: this.clearCart,
+                    clearCart: this.clearCart,
                     checkout: this.checkout
                 }}
             >
@@ -127,7 +180,7 @@ export default class App extends Component {
                                     </Link>
                                 )}
                                 <Link to="/cart" className="navbar-item">
-                                    ShoppingCart
+                                    Cart
                                     <span
                                         className="tag is-primary"
                                         style={{marginLeft: "5px"}}
@@ -152,7 +205,9 @@ export default class App extends Component {
                             <Route exact path="/create-product" component={CreateProduct}/>
                             <Route exact path="/login" component={Login} />
                             <Route exact path="/signup" component={SignUp}/>
+                            <Route exact path="/cart" component={Cart} />
                             <Route exact path="/products" component={ProductList} />
+                            <Route exact path="/PaymenthMethod" component={PaymentMethod} />
                         </Switch>
                     </div>
                 </Router>

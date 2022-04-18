@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 7.9.0.final using JasperReports Library version 6.16.0-48579d909b7943b64690c65c71e07e0b80981928  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Simple_Blue" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e54cb7e3-4a44-46e7-9afa-46fecfb2a687">
+    <parameter name = "vendor" class = "java.lang.String"/>
+    <parameter name = "author" class = "java.lang.String"/>
+
     <field name="id" class="java.lang.Long"></field>
     <field name="color" class="java.lang.String"></field>
     <field name="name" class="java.lang.String"></field>
@@ -12,6 +15,7 @@
     <field name="tax" class="java.lang.Double"></field>
     <field name="taxedPrice" class="java.lang.Double"></field>
     <field name="taxedSubTotal" class="java.lang.Double"></field>
+
     <variable name="sumquant" class="java.lang.Integer" calculation="Sum">
         <variableExpression><![CDATA[$F{quantity}]]></variableExpression>
     </variable>
@@ -24,6 +28,7 @@
     <variable name="vendorName" class="java.lang.String" calculation="Nothing">
         <variableDescription><![CDATA[$F{parameters.get("createdBy")}]]></variableDescription>
     </variable>
+
     <background>
         <band/>
     </background>
@@ -38,13 +43,15 @@
                     </textElement>
                     <text><![CDATA[ABC report]]></text>
                 </staticText>
-                <staticText>
+                <textField isBlankWhenNull = "true">
                     <reportElement x="395" y="43" width="180" height="20" forecolor="#FFFFFF" uuid="bf2a90ce-ab8b-450f-850d-7da25a9eaa57"/>
                     <textElement textAlignment="Right">
                         <font size="14" isBold="false"/>
                     </textElement>
-                    <text><![CDATA[Dear Vendor]]></text>
-                </staticText>
+                    <textFieldExpression class = "java.lang.String">
+                        <![CDATA[$P{vendor}]]>
+                    </textFieldExpression>
+                </textField>
             </frame>
         </band>
     </title>

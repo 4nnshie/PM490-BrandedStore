@@ -41,14 +41,15 @@ public class ReportServiceImpl implements ReportService {
     @Autowired
     ItemListRepository itemListRepository;
 
-    private JasperPrint getJasperPrint(List<ReportDto> prodCollection, String resourceLocation) throws FileNotFoundException, JRException {
+    private JasperPrint getJasperPrint(List<ReportDto> prodCollection, String resourceLocation, String vendorName) throws FileNotFoundException, JRException {
         File file = ResourceUtils.getFile(resourceLocation);
         JasperReport jasperReport = JasperCompileManager
                 .compileReport(file.getAbsolutePath());
         JRBeanCollectionDataSource dataSource = new
                 JRBeanCollectionDataSource(prodCollection);
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("createdBy", "Sagi");
+        parameters.put("author", "Sagi");
+        parameters.put("vendor", vendorName);
 
         JasperPrint jasperPrint = JasperFillManager
                 .fillReport(jasperReport, parameters, dataSource);
@@ -119,7 +120,7 @@ public class ReportServiceImpl implements ReportService {
 
         for(Long key : productMap.keySet()) {
 
-            JasperPrint jasperPrint = getJasperPrint(productMap.get(key), resourceLocation);
+            JasperPrint jasperPrint = getJasperPrint(productMap.get(key), resourceLocation, vendorMap.get(key).getUsername());
             Path uploadPath = getUploadPath(fileFormat, jasperPrint, fileName);
 
             //create a private method that returns the link to the specific pdf file

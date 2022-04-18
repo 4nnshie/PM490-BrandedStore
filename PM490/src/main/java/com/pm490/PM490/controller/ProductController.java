@@ -5,6 +5,7 @@ import com.pm490.PM490.dto.ProductRequest;
 import com.pm490.PM490.dto.ProductSearchDto;
 import com.pm490.PM490.model.Product;
 import com.pm490.PM490.model.ProductStatus;
+import com.pm490.PM490.model.Role;
 import com.pm490.PM490.model.User;
 import com.pm490.PM490.repository.UserRepository;
 import com.pm490.PM490.service.CurrentUserService;
@@ -59,9 +60,26 @@ public class ProductController {
     @PostMapping("/advancesearch")
     public List<Product> searchProductAdvanced(@RequestBody ProductSearchDto productAdv){
         System.out.println("#########"+productAdv);
-        List<Product> products = productService.searchProductAdvanced(productAdv);
-        return listMapper.mapList(products, ProductSearchDto.class);
+        if(productAdv.getStatus() != ProductStatus.APPROVED) {
+            try {
+                if (currentUserService.findLoggedUser() != null){
+                    if(currentUserService.findLoggedUser().getRole() == Role.ADMIN){
+                        System.out.println("#########" + currentUserService.findLoggedUser().getRole());
+                        return productService.searchProductAdvanced(productAdv);
+                    }else {
+                        productAdv.setStatus(ProductStatus.APPROVED);
+                    }
+                } else {
+                    productAdv.setStatus(ProductStatus.APPROVED);
+                }
+
+            } catch (Exception e) {
+                productAdv.setStatus(ProductStatus.APPROVED);
+            }
+        }
+            return productService.searchProductAdvanced(productAdv);
     }
+
     @PreAuthorize("hasAuthority('VENDOR') or hasAuthority('ADMIN')")
     @PostMapping("/saveproduct")
     public Product save(@RequestBody ProductRequest product) {

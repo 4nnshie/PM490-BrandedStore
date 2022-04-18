@@ -22,36 +22,36 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     @Query("select p from Product p where p.vendor =:vendor")
     List<Product> findAllByVendor(@Param("vendor") User vendor);
 
-    @Query("select p from Product p where p.name like %:searchPro% ")
-    List<Product> searchProductAdvanced(@Param("searchPro") String searchPro);
+    @Query("select p from Product p where p.status =:status and p.name like %:searchPro% ")
+    List<Product> searchProductAdvanced(@Param("status") ProductStatus status, @Param("searchPro") String searchPro);
 
     //color*
-    @Query("select p from Product p where p.name like %:searchPro% and p.color=:col ")
-    List<Product> searchProductAdvanced(@Param("searchPro") String searchPro, @Param("col") String col);
+    @Query("select p from Product p where p.status =:status and  p.name like %:searchPro% and p.color=:col ")
+    List<Product> searchProductAdvanced(@Param("status") ProductStatus status, @Param("searchPro") String searchPro, @Param("col") String col);
 
     //vendor*
-    @Query("select p from Product p where p.name like %:searchPro% and p.vendor=:vendor ")
-    List<Product> searchProductAdvanced(@Param("searchPro") String searchPro, @Param("vendor") User vendor);
+    @Query("select p from Product p where p.status =:status and  p.name like %:searchPro% and p.vendor=:vendor ")
+    List<Product> searchProductAdvanced(@Param("status") ProductStatus status, @Param("searchPro") String searchPro, @Param("vendor") User vendor);
 
     //category*
-    @Query("select p from Product p where p.name like %:searchPro% and p.category=:idCat ")
-    List<Product> searchProductAdvanced(@Param("searchPro") String searchPro, @Param("idCat") Category idCategory);
+    @Query("select p from Product p where p.status =:status and  p.name like %:searchPro% and p.category=:idCat ")
+    List<Product> searchProductAdvanced(@Param("status") ProductStatus status, @Param("searchPro") String searchPro, @Param("idCat") Category idCategory);
 
     //color vendor*
-    @Query("select p from Product p where p.name like %:searchPro% and p.color=:col and p.vendor=:vendor")
-    List<Product> searchProductAdvanced(@Param("searchPro") String searchPro, @Param("col") String col,  @Param("vendor") User vendor);
+    @Query("select p from Product p where p.status =:status and  p.name like %:searchPro% and p.color=:col and p.vendor=:vendor")
+    List<Product> searchProductAdvanced(@Param("status") ProductStatus status, @Param("searchPro") String searchPro, @Param("col") String col,  @Param("vendor") User vendor);
 
     //color category*
-    @Query("select p from Product p where p.name like %:searchPro% and p.color=:col and p.category=:idCat")
-    List<Product> searchProductAdvanced(@Param("searchPro") String searchPro, @Param("col") String col,  @Param("idCat") Category idCategory);
+    @Query("select p from Product p where p.status =:status and  p.name like %:searchPro% and p.color=:col and p.category=:idCat")
+    List<Product> searchProductAdvanced(@Param("status") ProductStatus status, @Param("searchPro") String searchPro, @Param("col") String col,  @Param("idCat") Category idCategory);
 
     //vendor category*
-    @Query("select p from Product p where p.name like %:searchPro% and p.vendor=:vendor  and p.category=:idCat")
-    List<Product> searchProductAdvanced(@Param("searchPro") String searchPro, @Param("vendor") User vendor,  @Param("idCat") Category idCategory);
+    @Query("select p from Product p where p.status =:status and  p.name like %:searchPro% and p.vendor=:vendor  and p.category=:idCat")
+    List<Product> searchProductAdvanced(@Param("status") ProductStatus status, @Param("searchPro") String searchPro, @Param("vendor") User vendor,  @Param("idCat") Category idCategory);
 
     //color vendor category*
-    @Query("select p from Product p where p.name like %:searchPro% and p.color=:col and p.vendor=:vendor and p.category=:idCat")
-    List<Product> searchProductAdvanced(@Param("searchPro") String searchPro, @Param("col") String col,  @Param("vendor") User vendor, @Param("idCat") Category idCategory);
+    @Query("select p from Product p where p.status =:status and p.name like %:searchPro% and p.color=:col and p.vendor=:vendor and p.category=:idCat")
+    List<Product> searchProductAdvanced(@Param("status") ProductStatus status, @Param("searchPro") String searchPro, @Param("col") String col,  @Param("vendor") User vendor, @Param("idCat") Category idCategory);
 
 
 }

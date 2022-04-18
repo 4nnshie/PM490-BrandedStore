@@ -26,25 +26,27 @@ export default class App extends Component {
     async componentDidMount() {
         let user = localStorage.getItem("user");
         let cart = localStorage.getItem("cart");
-        let search = localStorage.getItem("search");
-        if(search){
-
-        }
-        search = search ? await axios.get('http://localhost:8080/api/product') : null;
-        const products = await axios.get('http://localhost:8080/api/product');
+        const products = await axios.get('http://localhost:8080/api/product/');
+       // let search = localStorage.getItem("search");
         user = user ? JSON.parse(user) : null;
         cart = cart ? JSON.parse(cart) : {};
 
-        this.setState({user, search, products: products.data, cart});
+        this.setState({user, products: products.data, cart});
     }
 
-    search = async (sname, scolor, svendor, scategory) => {
+    search = async (name, color, idVendor, idCategory) => {
+        console.log({name,color, idVendor, idCategory});
         const res = await axios.post(
             'http://localhost:8080/api/product/advancesearch',
-            {sname,scolor, svendor, scategory},
+            {name,color, idVendor, idCategory},
         ).catch((res) => {
-            return {message:"No products found!"}
+            return {message:"#No products found!"}
         })
+        console.log(JSON.stringify(res));
+        if(res.status === 200) {
+
+            this.setState({products: res.data});
+        }
     }
 
     login = async (username, password) => {
@@ -102,7 +104,8 @@ export default class App extends Component {
                     //signup: this.signUp,
                     createProduct: this.createProduct,
                     //clearCart: this.clearCart,
-                    checkout: this.checkout
+                    checkout: this.checkout,
+                    search: this.search
                 }}
             >
                 <Router ref={this.routerRef}>

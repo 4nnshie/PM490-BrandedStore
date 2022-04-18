@@ -5,10 +5,10 @@ class Search extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            sname: "",
-            scolor: "",
-            svendor: 0,
-            scategory: 0
+            name: "",
+            color: "",
+            idVendor: 0,
+            idCategory: 0
         };
         this.routerRef = React.createRef();
     }
@@ -17,9 +17,9 @@ class Search extends Component {
 
     search = (e) => {
         e.preventDefault();
-        const {sname, scolor, svendor, scategory} = this.state;
-        if (sname) {
-            this.props.context.search(sname, scolor, svendor, scategory)
+        const {name, color, idVendor, idCategory} = this.state;
+        if (name) {
+            this.props.context.search(name, color, idVendor, idCategory)
         }
     };
 
@@ -31,7 +31,7 @@ class Search extends Component {
                         <input
                             class="input"
                             type="text"
-                            name="sname"
+                            name="name"
                             placeholder="Search products"
                             onChange={this.handleChange}
                             value={this.state.search}
@@ -41,7 +41,7 @@ class Search extends Component {
                         <input
                             className="input"
                             type="text"
-                            name="scolor"
+                            name="color"
                             placeholder="Color"
                             onChange={this.handleChange}
                             value={this.state.search}
@@ -51,7 +51,7 @@ class Search extends Component {
                         <input
                             className="input"
                             type="text"
-                            name="svendor"
+                            name="idVendor"
                             placeholder="Vendor"
                             onChange={this.handleChange}
                             value={this.state.search}
@@ -61,16 +61,16 @@ class Search extends Component {
                         <input
                             className="input"
                             type="text"
-                            name="scategory"
+                            name="idCategory"
                             placeholder="Category"
                             onChange={this.handleChange}
                             value={this.state.search}
                         />
                     </p>
                     <p class="control">
-                        <a class="button" onClick={this.handleChange}>
+                        <button class="button" >
                             🔎
-                        </a>
+                        </button>
                     </p>
                 </div>
             </form>

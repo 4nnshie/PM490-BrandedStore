@@ -27,7 +27,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
     private String address;
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<ItemList> itemList;
 
     public User(String username, String email, String password) {

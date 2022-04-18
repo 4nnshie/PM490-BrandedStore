@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:mysql://127.0.0.1:3306/pm490
     username: root
-    password: 1234
+    password: root
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
@@ -14,11 +14,17 @@ spring:
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
       ddl-auto: update
 
-    properties:
-      hibernate:
-      dialect: org.hibernate.dialect.MySQL8Dialect
+#    properties:
+#      hibernate:
+#      dialect: org.hibernate.dialect.MySQL8Dialect
 
   security:
     jwt:
       secret: "pm490"
       expiretime: 86400000
+
+  env:
+    abc:
+      email: "abccompany@gmail.com"
+  cron:
+    duration: 5000

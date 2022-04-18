@@ -14,4 +14,8 @@ public class ReportDto {
     private long vendor_id;
     private String vendorName;
     private String orderDate;
+    private Double subTotal;
+    private Double tax;
+    private Double taxedPrice;
+    private Double taxedSubTotal;
 }

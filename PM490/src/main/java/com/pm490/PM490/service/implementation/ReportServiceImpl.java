@@ -3,7 +3,6 @@ package com.pm490.PM490.service.implementation;
 import com.pm490.PM490.dto.EmailDto;
 import com.pm490.PM490.dto.ReportDto;
 import com.pm490.PM490.model.ItemList;
-import com.pm490.PM490.model.Product;
 import com.pm490.PM490.model.Transaction;
 import com.pm490.PM490.model.User;
 import com.pm490.PM490.repository.ItemListRepository;
@@ -34,6 +33,8 @@ public class ReportServiceImpl implements ReportService {
 
     @Value("${spring.env.abc.email}")
     private String abcemail;
+    @Value("${spring.env.tax}")
+    private Double tax;
 
     @Autowired
     TransactionRepository transactionRepository;
@@ -86,13 +87,17 @@ public class ReportServiceImpl implements ReportService {
             reportDto.setId(item.getProduct().getId());
             reportDto.setColor(item.getProduct().getColor());
             reportDto.setName(item.getProduct().getName());
-            reportDto.setDescription(item.getProduct().getDescription());
+            reportDto.setDescription(!(item.getProduct().getDescription().equals(null)) ? item.getProduct().getDescription() : "");
             reportDto.setPrice(item.getProduct().getPrice());
             reportDto.setQuantity(item.getQuantity());
             reportDto.setStatus(item.getPurchaseStatus().name());
             reportDto.setVendor_id(item.getProduct().getVendor().getId());
             reportDto.setVendorName(item.getProduct().getVendor().getUsername());
             reportDto.setOrderDate(LocalDate.now().toString());
+            reportDto.setSubTotal(item.getProduct().getPrice() * item.getQuantity());
+            reportDto.setTax(tax);
+            reportDto.setTaxedPrice(item.getProduct().getPrice() - (item.getProduct().getPrice() * tax / 100));
+            reportDto.setTaxedSubTotal((item.getProduct().getPrice() - (item.getProduct().getPrice() * tax / 100)) * item.getQuantity());
 
             long key = item.getProduct().getVendor().getId();
             if(productMap.containsKey(key)) {
@@ -119,10 +124,9 @@ public class ReportServiceImpl implements ReportService {
 
             //create a private method that returns the link to the specific pdf file
             String fileLinke = getPdfFileLink(uploadPath.toString());
-//            sendEmail(vendorMap.get(key).getEmail(), fileLinke);
-            sendEmail("lgxskinlg@gmail.com", fileLinke);
+            // TODO COMMENT WHEN FINAL sending email
+            // sendEmail(vendorMap.get(key).getEmail(), fileLinke);
         }
-//        List<Transaction> transactions = transactionRepository.findAll();
         return "";
     }
 

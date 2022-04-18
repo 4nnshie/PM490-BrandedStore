@@ -26,5 +26,6 @@ spring:
   env:
     abc:
       email: "abccompany@gmail.com"
+    tax: 7
   cron:
-    duration: 5000
+    duration: 25000

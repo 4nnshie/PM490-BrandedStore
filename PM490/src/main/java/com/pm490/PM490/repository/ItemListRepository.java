@@ -1,7 +1,6 @@
 package com.pm490.PM490.repository;
 
 import com.pm490.PM490.model.ItemList;
-import com.pm490.PM490.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,4 +18,7 @@ public interface ItemListRepository extends JpaRepository<ItemList,Long> {
 
     @Query(value = "SELECT * FROM ItemList i WHERE i.user_id = :ui and purchaseStatus = 'CREATED'", nativeQuery = true)
     List<ItemList> findByUserAndCreated(@Param("ui") long ui);
+
+    @Query("select il from ItemList il where il.purchaseStatus = 'ORDERED'")
+    List<ItemList> findOrderedItems();
 }

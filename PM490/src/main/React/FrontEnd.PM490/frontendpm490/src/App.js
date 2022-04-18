@@ -7,8 +7,9 @@ import CreateProduct from './components/CreateProduct';
 //import Cart from './components/Cart';
 import Login from './components/Login';
 import ProductList from './components/ProductList';
-import SignUp from "./components/SignUp";
+import SignUp from './components/SignUp';
 import Context from "./Context";
+import SearchProducts from './components/SearchProducts';
 
 export default class App extends Component {
     constructor(props) {
@@ -16,6 +17,7 @@ export default class App extends Component {
         this.state = {
             user: null,
             cart: {},
+            search:null,
             products: []
         };
         this.routerRef = React.createRef();
@@ -24,12 +26,25 @@ export default class App extends Component {
     async componentDidMount() {
         let user = localStorage.getItem("user");
         let cart = localStorage.getItem("cart");
-
-        const products = await axios.get('http://localhost:8080/api/product');
+        let products = await axios.get('http://localhost:8080/api/product/');
+       // let search = localStorage.getItem("search");
         user = user ? JSON.parse(user) : null;
         cart = cart ? JSON.parse(cart) : {};
 
         this.setState({user, products: products.data, cart});
+    }
+    search = async (name, status, color, idVendor, idCategory) => {
+        console.log({name,status, color, idVendor, idCategory});
+        const res = await axios.post(
+            'http://localhost:8080/api/product/advancesearch',
+            {name, status, color, idVendor, idCategory},
+        ).catch((res) => {
+            return {message:"#No products found!"}
+        })
+        console.log(JSON.stringify(res));
+        if(res.status === 200) {
+            this.setState({products: res.data});
+        }
     }
 
     login = async (username, password) => {
@@ -87,7 +102,8 @@ export default class App extends Component {
                     //signup: this.signUp,
                     createProduct: this.createProduct,
                     //clearCart: this.clearCart,
-                    checkout: this.checkout
+                    checkout: this.checkout,
+                    search: this.search
                 }}
             >
                 <Router ref={this.routerRef}>
@@ -145,8 +161,10 @@ export default class App extends Component {
                                     </Link>
 
                                 )}
+
                             </div>
                         </nav>
+                        <SearchProducts />
                         <Switch>
                             <Route exact path="/" component={ProductList} />
                             <Route exact path="/create-product" component={CreateProduct}/>

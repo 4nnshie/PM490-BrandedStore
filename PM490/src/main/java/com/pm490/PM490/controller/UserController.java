@@ -1,5 +1,6 @@
 package com.pm490.PM490.controller;
 
+import com.pm490.PM490.model.Role;
 import com.pm490.PM490.model.User;
 import com.pm490.PM490.model.UserStatus;
 import com.pm490.PM490.repository.UserRepository;
@@ -13,12 +14,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
-@PreAuthorize("hasAuthority('ADMIN')")
+
 public class UserController {
 
     @Autowired
     UserRepository userRepository;
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/users")
     List<User> index(@RequestBody User user) {
         System.out.println("__________ SEARCH _______");
@@ -27,6 +29,13 @@ public class UserController {
         return userRepository.findAll();
     }
 
+    @GetMapping("/getbyrole/{role}")
+    List<User> getByRole(@PathVariable Role role) {
+        System.out.println("__________ SEARCH _______");
+        System.out.println("__________ SEARCH _______");
+        return userRepository.findAllByRole(role);
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/user")
     User add(@RequestBody User newUser) {
         System.out.println("__________ REGISTER _______");
@@ -34,7 +43,7 @@ public class UserController {
         System.out.println("__________ REGISTER _______");
         return userRepository.save(newUser);
     }
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/user/{id}")
     User get(@PathVariable Long id) {
         System.out.println("__________ DETAIL _______");
@@ -43,7 +52,7 @@ public class UserController {
         return userRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found - %d !" + id));
     }
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/user/{id}")
     User update(@RequestBody User updateUser, @PathVariable Long id) {
         System.out.println("__________ UPDATE _______");
@@ -61,7 +70,7 @@ public class UserController {
                     return userRepository.save(updateUser);
                 });
     }
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/user/{id}")
     User delete(@PathVariable Long id) {
 //        userRepository.deleteById(id);

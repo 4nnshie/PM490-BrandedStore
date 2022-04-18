@@ -1,4 +1,5 @@
 import React from "react";
+import withContext from "../withContext";
 
 const ProductItem = props => {
     const { product } = props;

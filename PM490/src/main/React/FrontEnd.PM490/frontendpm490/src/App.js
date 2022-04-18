@@ -26,25 +26,23 @@ export default class App extends Component {
     async componentDidMount() {
         let user = localStorage.getItem("user");
         let cart = localStorage.getItem("cart");
-        const products = await axios.get('http://localhost:8080/api/product/');
+        let products = await axios.get('http://localhost:8080/api/product/');
        // let search = localStorage.getItem("search");
         user = user ? JSON.parse(user) : null;
         cart = cart ? JSON.parse(cart) : {};
 
         this.setState({user, products: products.data, cart});
     }
-
-    search = async (name, color, idVendor, idCategory) => {
-        console.log({name,color, idVendor, idCategory});
+    search = async (name, status, color, idVendor, idCategory) => {
+        console.log({name,status, color, idVendor, idCategory});
         const res = await axios.post(
             'http://localhost:8080/api/product/advancesearch',
-            {name,color, idVendor, idCategory},
+            {name, status, color, idVendor, idCategory},
         ).catch((res) => {
             return {message:"#No products found!"}
         })
         console.log(JSON.stringify(res));
         if(res.status === 200) {
-
             this.setState({products: res.data});
         }
     }

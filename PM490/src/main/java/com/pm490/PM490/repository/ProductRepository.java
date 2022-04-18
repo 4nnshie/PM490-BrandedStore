@@ -11,6 +11,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Transactional
@@ -19,8 +20,11 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     @Query("select p from Product p where p.status =:status")
     List<Product> findAllStatus(@Param("status") ProductStatus status);
 
-    @Query("select p from Product p where p.vendor =:vendor")
-    List<Product> findAllByVendor(@Param("vendor") User vendor);
+    List<Product> findAllByVendor(User vendor);
+
+    Optional<Product> findAllByVendor_IdOrCategory_Id(long idVen, long idCat);
+
+    List<Product> findAllByCategory(Category cat);
 
     @Query("select p from Product p where p.status =:status and p.name like %:searchPro% ")
     List<Product> searchProductAdvanced(@Param("status") ProductStatus status, @Param("searchPro") String searchPro);
@@ -53,5 +57,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
     @Query("select p from Product p where p.status =:status and p.name like %:searchPro% and p.color=:col and p.vendor=:vendor and p.category=:idCat")
     List<Product> searchProductAdvanced(@Param("status") ProductStatus status, @Param("searchPro") String searchPro, @Param("col") String col,  @Param("vendor") User vendor, @Param("idCat") Category idCategory);
 
-
+    @Query("select distinct color from Product")
+    List<String> getColors();
 }

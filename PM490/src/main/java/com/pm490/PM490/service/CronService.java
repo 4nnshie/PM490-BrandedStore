@@ -10,6 +10,7 @@ import java.time.LocalDate;
 
 @Service
 public class CronService {
+
     @Autowired
     ReportService reportService;
 
@@ -22,7 +23,7 @@ public class CronService {
      * @Scheduled(cron = "@monthly")  //once a month (0 0 0 1 * *)
      * @Scheduled(cron = "@yearly")
     */
-    @Scheduled(fixedRate = 5000)
+    @Scheduled(fixedRateString = "${spring.cron.duration}")
     public void computePrice() throws JRException, IOException {
         String fileLink = reportService.generateReport(LocalDate.now(), "pdf");
         System.out.println("Scheduled job is running !!! "+LocalDate.now());

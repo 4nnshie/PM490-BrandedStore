@@ -4,13 +4,13 @@ import com.pm490.PM490.dto.EmailDto;
 import com.pm490.PM490.service.EmailService;
 import org.springframework.stereotype.Component;
 
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import java.io.File;
-import java.nio.file.FileSystem;
 import java.util.Date;
 import java.util.Properties;
 
@@ -53,8 +53,14 @@ public class EmailServiceImpl implements EmailService {
             Multipart multipart = new MimeMultipart();
             multipart.addBodyPart(messageBodyPart);
 
+//            MimeBodyPart attachPart = new MimeBodyPart();
+//            attachPart.attachFile(email.getAttachFileAddress());
+            // Part two is attachment
             MimeBodyPart attachPart = new MimeBodyPart();
-            attachPart.attachFile(email.getAttachFileAddress());
+            FileDataSource source = new FileDataSource(email.getAttachFileAddress());
+            messageBodyPart.setDataHandler(new DataHandler(source));
+            messageBodyPart.setFileName(email.getAttachFileAddress());
+            multipart.addBodyPart(messageBodyPart);
 
             msg.setContent(multipart);
             Transport.send(msg);

@@ -1,12 +1,15 @@
 package com.pm490.PM490.service.implementation;
 
+import com.pm490.PM490.dto.EmailDto;
 import com.pm490.PM490.model.Transaction;
 import com.pm490.PM490.repository.TransactionRepository;
+import com.pm490.PM490.service.EmailService;
 import com.pm490.PM490.service.ReportService;
 import lombok.RequiredArgsConstructor;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 import org.springframework.util.StringUtils;
@@ -25,6 +28,10 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class ReportServiceImpl implements ReportService {
+
+    @Value("${spring.env.abc.email}")
+    private String abcemail;
+
     @Autowired
     TransactionRepository transactionRepository;
 
@@ -75,12 +82,24 @@ public class ReportServiceImpl implements ReportService {
         String fileName = "/"+"transaction.pdf";
         Path uploadPath = getUploadPath(fileFormat, jasperPrint, fileName);
         //create a private method that returns the link to the specific pdf file
-
-        return getPdfFileLink(uploadPath.toString());
+        String fileLinke = getPdfFileLink(uploadPath.toString());
+        sendEmail("test@gmail.com", fileLinke);
+        return fileLinke;
     }
 
     @Override
     public List<Transaction> findAllTransactions() {
         return transactionRepository.findAll();
+    }
+
+    private void sendEmail(String toAddress, String fileLinke) {
+        EmailDto email = new EmailDto();
+        email.setFromAddress(abcemail);
+        email.setToAddress(toAddress);
+        email.setMailSubject("ABC montly report");
+        email.setBodyText("Hi there");
+        email.setAttachFileAddress("./"+fileLinke);
+        EmailService emailService = new EmailServiceImpl();
+        emailService.sendEmail(email);
     }
 }

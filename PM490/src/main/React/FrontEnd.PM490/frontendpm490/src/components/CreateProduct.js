@@ -9,23 +9,34 @@ const initState = {
     color: "",
     idVendor: 0,
     status: "",
+
     quantity:0,
     idCategory:0,
     price:0,
+
+    listCategory: [],
+
 };
 
 class CreateProduct extends Component {
     constructor(props) {
         super(props);
         this.state = initState;
-    }
 
+    }
+ async componentDidMount(){
+     const listCategory = await axios.get('http://localhost:8080/api/category');
+     this.setState({
+         listCategory: listCategory.data
+     })
+ }
+    handleChange = e => this.setState({[e.target.name]: e.target.value, error: ""});
     save = async (e) => {
         e.preventDefault();
         const { name, color, idVendor,status,quantity, idCategory, price } = this.state;
 
         if (name && price) {
-            const id = Math.random().toString(36).substring(2) + Date.now().toString(36);
+            //const id = Math.random().toString(36).substring(2) + Date.now().toString(36);
             const { user } = this.props.context;
             await axios.post(
                 'http://localhost:8080/api/product/saveproduct',
@@ -58,8 +69,6 @@ class CreateProduct extends Component {
             );
         }
     };
-
-    handleChange = e => this.setState({ [e.target.name]: e.target.value, error: "" });
 
     render() {
 
@@ -116,21 +125,21 @@ class CreateProduct extends Component {
                             </div>
                             <div className="field">
                                 <label className="label">category: </label>
-                                <input
-                                    className="input"
-                                    type="text"
+
+                               <select
                                     name="idCategory"
-                                    value={idCategory}
+                                    className="input"
                                     onChange={this.handleChange}
-                                />
+                                    value={idCategory}>
+                               <option value="">Category</option>
+                                   {this.state.listCategory.map(cat => <option value={cat.id}>{cat.name}</option>)}
+                               </select>
                             </div>
                             <div className="field">
                                 <label className="label">price: </label>
-                                <textarea
+                                <input
                                     className="input"
                                     type="number"
-                                    rows="2"
-                                    style={{ resize: "none" }}
                                     name="price"
                                     value={price}
                                     onChange={this.handleChange}

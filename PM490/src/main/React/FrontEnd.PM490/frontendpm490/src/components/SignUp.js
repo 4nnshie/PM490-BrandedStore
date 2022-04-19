@@ -10,6 +10,7 @@ const initState = {
     phone: "",
     email: "",
     role: "",
+    address:""
 };
 
 class SignUp extends Component {
@@ -20,14 +21,14 @@ class SignUp extends Component {
 
     save = async (e) => {
         e.preventDefault();
-        const {username, password, fullname, phone, email, role} = this.state;
+        const {username, password, fullname, phone, email, role, address} = this.state;
 
         if (!username || !password || !fullname || !phone || !email || !role) {
             return this.setState({error: "Fill all fields!"});
         }
         const res = await axios.post(
             'http://localhost:8080/api/auth/signup',
-            {username, password, email, role},
+            {username, password, email, role, address, fullname},
         ).catch((res) => {
             return {status: res.status, message: res.message}
         })
@@ -43,7 +44,7 @@ class SignUp extends Component {
     handleChange = e => this.setState({[e.target.name]: e.target.value, error: ""});
 
     render() {
-        const {username, password, fullname, phone, email, role} = this.state;
+        const {username, password, fullname, phone, email, role, address} = this.state;
 
         return  (
             <>
@@ -78,7 +79,7 @@ class SignUp extends Component {
                                 />
                             </div>
                             <div className="field">
-                                <label className="label">FullName: </label>
+                                <label className="label">Full Name: </label>
                                 <input
                                     className="input"
                                     type="fullname"
@@ -91,7 +92,7 @@ class SignUp extends Component {
                                 <label className="label">Phone: </label>
                                 <input
                                     className="input"
-                                    type="phone"
+                                    type="number"
                                     name="phone"
                                     value={phone}
                                     onChange={this.handleChange}
@@ -108,15 +109,27 @@ class SignUp extends Component {
                                 />
                             </div>
                             <div className="field">
-                                <label className="label">Role: </label>
+                                <label className="label">Address: </label>
                                 <input
                                     className="input"
-                                    type="role"
-                                    name="role"
-                                    value={role}
+                                    type="address"
+                                    name="address"
+                                    value={address}
                                     onChange={this.handleChange}
                                 />
                             </div>
+                            <div className="select">
+                                <label className="label">Role: </label>
+                                <select name="role"
+                                        className="input"
+                                        onChange={this.handleChange}
+                                        value={role}>
+                                    <option value="CUSTOMER">Customer</option>
+                                    <option value="VENDOR">Vendor</option>
+                                    <option value="CLIENT">Client</option>
+                                </select>
+                            </div>
+
                             {this.state.flash && (
                                 <div className={`notification ${this.state.flash.status}`}>
                                     {this.state.flash.msg}

@@ -4,14 +4,18 @@ import { Redirect } from "react-router-dom";
 import axios from 'axios';
 
 const initState = {
+    id:0,
     name: "",
     color: "",
-    idVendor: "",
+    idVendor: 0,
     status: "",
-    quantity:"",
-    idCategory:"",
-    price:"",
+
+    quantity:0,
+    idCategory:0,
+    price:0,
+
     listCategory: [],
+
 };
 
 class CreateProduct extends Component {

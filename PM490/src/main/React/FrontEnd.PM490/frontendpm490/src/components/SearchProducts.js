@@ -11,7 +11,6 @@ class Search extends Component {
             color: "",
             idVendor: 0,
             idCategory: 0,
-
             listColors: [],
             listVendors:[],
             listCategory:[]
@@ -20,9 +19,9 @@ class Search extends Component {
     }
 
     async componentDidMount() {
-        const listColors = await axios.get('http://localhost:8080/api/product/getcolors');
+        const listColors = await axios.get('http://localhost:8080/api/product/getcolors/');
         const listVendors = await axios.get('http://localhost:8080/api/user/getbyrole/VENDOR');
-        const listCategory = await axios.get('http://localhost:8080/api/category');
+        const listCategory = await axios.get('http://localhost:8080/api/category/');
         this.setState({
             listColors : listColors.data,
             listVendors : listVendors.data,

@@ -4,13 +4,14 @@ import { Redirect } from "react-router-dom";
 import axios from 'axios';
 
 const initState = {
+    id:0,
     name: "",
     color: "",
-    idVendor: "",
+    idVendor: 0,
     status: "",
-    quantity:"",
-    idCategory:"",
-    price:"",
+    quantity:0,
+    idCategory:0,
+    price:0,
 };
 
 class CreateProduct extends Component {
@@ -22,17 +23,7 @@ class CreateProduct extends Component {
     save = async (e) => {
         e.preventDefault();
         const { name, color, idVendor,status,quantity, idCategory, price } = this.state;
-       // const token = Buffer.from(`${username}:${password}`, 'utf8').toString('base64')
-       /* const url = 'https://...'
-        const data = {
-            ...
-        }
-        axios.post(url, data, {
-            headers: {
-                'Authorization': `Basic ${token}`
-            },
-        })
-        */
+
         if (name && price) {
             const id = Math.random().toString(36).substring(2) + Date.now().toString(36);
             const { user } = this.props.context;

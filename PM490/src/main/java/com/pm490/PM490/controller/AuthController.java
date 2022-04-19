@@ -69,9 +69,17 @@ public class AuthController {
         }
         // Create new user's account
         User user = new User(signUpRequest.getUsername(),
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getFullName(),
+                signUpRequest.getPhone(),
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
-
+                Role.valueOf(signUpRequest.getRole()),
+                signUpRequest.getAddress()
+                );
+        if(user.getRole() != Role.CUSTOMER){
+            user.setStatus(UserStatus.INACTIVE);
+        }
+        /*
         if (!Role.VENDOR.name().equals(signUpRequest.getRole())) {
             user.setRole(Role.CUSTOMER);
         } else {
@@ -81,7 +89,7 @@ public class AuthController {
 
         user.setAddress(signUpRequest.getAddress());
         user.setPhone(signUpRequest.getPhone());
-
+ */
         userRepository.save(user);
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

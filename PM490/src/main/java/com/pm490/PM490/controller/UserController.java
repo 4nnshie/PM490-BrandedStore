@@ -30,10 +30,10 @@ public class UserController {
     }
 
     @GetMapping("/getbyrole/{role}")
-    List<User> getByRole(@PathVariable Role role) {
+    List<User> getByRole(@PathVariable String role) {
         System.out.println("__________ SEARCH _______");
         System.out.println("__________ SEARCH _______");
-        return userRepository.findAllByRole(role);
+        return userRepository.findAllByRole(Role.valueOf(role));
     }
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/user")

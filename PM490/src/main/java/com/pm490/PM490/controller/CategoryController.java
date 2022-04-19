@@ -11,7 +11,7 @@ public class CategoryController {
     @Autowired
     CategoryRepository categoryRepository;
 
-    @GetMapping()
+    @GetMapping("/")
     public ResponseEntity<?> index() {
         return ResponseEntity.ok().body(categoryRepository.findAll());
     }

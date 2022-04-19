@@ -17,6 +17,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
@@ -57,6 +58,12 @@ public class ProductController {
         return productService.findAllStatus(ProductStatus.APPROVED);
     }
 
+    @GetMapping("/{id}")
+    public Product getProduct(@PathVariable Long id){
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found - %d !" + id));
+    }
+
     @PreAuthorize("hasAuthority('VENDOR') or hasAuthority('ADMIN')")
     @GetMapping("/mycreatedproducts")
     public List<Product> findAllByVendor() {
@@ -93,9 +100,13 @@ public class ProductController {
 
     @PreAuthorize("hasAuthority('VENDOR') or hasAuthority('ADMIN')")
     @PostMapping("/saveproduct")
-    public Product save(@RequestBody ProductRequest product) {
-        User user = currentUserService.findLoggedUser();
-        return productService.save(product, user);
+    public ResponseEntity<?> save(@RequestBody ProductRequest product) {
+        try {
+            User user = currentUserService.findLoggedUser();
+            return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product, user));
+        } catch (RuntimeException exception) {
+            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(exception.getMessage());
+        }
     }
 
     @PreAuthorize("hasAuthority('VENDOR') or hasAuthority('ADMIN')")
@@ -111,7 +122,7 @@ public class ProductController {
         return productService.delete(id);
     }
 
-    @GetMapping("/getcolors")
+    @GetMapping("/getcolors/")
     public List<String> getColors() {
         return productRepository.getColors();
     }

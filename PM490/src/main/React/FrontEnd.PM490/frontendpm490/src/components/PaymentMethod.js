@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import withContext from  "../withContext";
+import axios from "axios";
 
 const initState = {
     type: "",
@@ -14,9 +15,52 @@ class PaymentMethod extends Component {
         super(props);
         this.state = initState;
     }
+
+    save = async (e) => {
+        e.preventDefault();
+        const {type, fullname, number, expireDate, cvv, zipcode} = this.state;
+
+        if (type && fullname && number && expireDate && cvv && zipcode) {
+
+            const {user} = this.props.context;
+            await axios.post(
+                'http://localhost:8080/api/paymentmethod/create',
+                {type, fullname, number, expireDate, cvv, zipcode},
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + user.token
+                    }
+                },
+            )
+            this.props.context.createProduct(
+                {
+                    type,
+                    fullname,
+                    number,
+                    expireDate,
+                    cvv,
+                    zipcode
+                },
+                () => this.setState(initState)
+            );
+
+            this.setState(
+                {flash: {status: 'is-success', msg: 'Product created successfully'}}
+            );
+        }
+      else {
+          this.setState(
+          { flash: { status: 'is-danger', msg: 'Please enter the fields' }}
+          );
+       }
+
+};
+
+
+    handleChange = e => this.setState({[e.target.name]: e.target.value, error: ""});
     render() {
         const {type, fullname, number, expireDate, cvv, zipcode} = this.state;
-        const {user} = this.props.context;
 
     return(
         <>
@@ -60,6 +104,7 @@ class PaymentMethod extends Component {
                                 name="number"
                                 value={number}
                                 onChange={this.handleChange}
+                                required
                             />
                         </div>
                         <div className="field">
@@ -70,6 +115,7 @@ class PaymentMethod extends Component {
                                 name="expireDate"
                                 value={expireDate}
                                 onChange={this.handleChange}
+                                required
                             />
                         </div>
                         <div className="field">
@@ -77,9 +123,10 @@ class PaymentMethod extends Component {
                             <input
                                 className="input"
                                 type="number"
-                                name="cvc"
+                                name="cvv"
                                 value={cvv}
                                 onChange={this.handleChange}
+                                required
                             />
                         </div>
                         <div className="field">
@@ -90,6 +137,7 @@ class PaymentMethod extends Component {
                                 name="zipcode"
                                 value={zipcode}
                                 onChange={this.handleChange}
+                                required
                             />
                         </div>
                         {this.state.flash && (
@@ -103,7 +151,7 @@ class PaymentMethod extends Component {
                                 type="submit"
                                 onClick={this.save}
                             >
-                                Submit
+                                Pay
                             </button>
                         </div>
                     </div>

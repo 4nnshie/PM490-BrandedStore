@@ -19,7 +19,7 @@ public class PaymentMethod {
     private String type;
     private String fullname;
     private long number;
-    private LocalDate expireDate;
+    private String expireDate;
     private int cvv;
     private int zipcode;
 }

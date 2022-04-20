@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/paymentmethod")
-@PreAuthorize("hasAuthority('CUSTOMER')")
+@PreAuthorize("hasAnyAuthority('CUSTOMER', 'VENDOR')")
 public class PaymentMethodController {
     @Autowired
 

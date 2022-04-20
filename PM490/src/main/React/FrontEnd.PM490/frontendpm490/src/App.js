@@ -62,10 +62,14 @@ export default class App extends Component {
     };
 
     checkout=()=>{
-        if(!this.state.user){
+        if(this.state.user){
             this.routerRef.current.history.push("/PaymentMethod");
             return;
         }
+        if(!this.state.user){
+            this.routerRef.current.history.push("/login");
+            return;
+        }//with out login checkout will redirect to login page
 
         const cart=this.state.cart;
 

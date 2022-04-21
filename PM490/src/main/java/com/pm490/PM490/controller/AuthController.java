@@ -78,6 +78,8 @@ public class AuthController {
                 );
         if(user.getRole() != Role.CUSTOMER){
             user.setStatus(UserStatus.INACTIVE);
+        }else{
+            user.setStatus(UserStatus.ACTIVE);
         }
         /*
         if (!Role.VENDOR.name().equals(signUpRequest.getRole())) {

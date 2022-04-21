@@ -25,7 +25,7 @@ class CreateProduct extends Component {
 
     }
  async componentDidMount(){
-     const listCategory = await axios.get('http://localhost:8080/api/category');
+     const listCategory = await axios.get('http://localhost:8080/api/category/');
      this.setState({
          listCategory: listCategory.data
      })

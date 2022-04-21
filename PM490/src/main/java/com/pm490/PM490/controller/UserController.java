@@ -22,9 +22,9 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/users")
-    List<User> index(@RequestBody User user) {
+    List<User> index() {
         System.out.println("__________ SEARCH _______");
-        System.out.println(user);
+        //System.out.println(user);
         System.out.println("__________ SEARCH _______");
         return userRepository.findAll();
     }

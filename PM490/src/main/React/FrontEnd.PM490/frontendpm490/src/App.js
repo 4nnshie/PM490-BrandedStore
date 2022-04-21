@@ -11,6 +11,7 @@ import Context from "./Context";
 import SearchProducts from './components/SearchProducts';
 import ShoppingCart from "./components/ShoppingCart";
 import PaymentMethod from "./components/PaymentMethod";
+import UsersManagement from "./components/UsersManagement";
 
 export default class App extends Component {
     constructor(props) {
@@ -207,6 +208,11 @@ export default class App extends Component {
                                         {Object.keys(this.state.cart).length}
                                     </span>
                                 </Link>
+                                {this.state.user && this.state.user.role === "ADMIN" && (
+                                    <Link to="/UserManagement" className="navbar-item">
+                                        User Management
+                                    </Link>
+                                )}
                                 {!this.state.user ? (
                                     <Link to="/login" className="navbar-item">
                                         Login
@@ -225,6 +231,7 @@ export default class App extends Component {
                             <Route exact path="/" component={ProductList} />
                             <Route exact path="/CreateProduct" component={CreateProduct}/>
                             <Route exact path="/login" component={Login} />
+                            <Route exact path="/UserManagement" component={UsersManagement} />
                             <Route exact path="/signup" component={SignUp}/>
                             <Route exact path="/products" component={ProductList} />
                             <Route exact path="/ShoppingCart" component={ShoppingCart}/>

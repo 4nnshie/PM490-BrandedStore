@@ -17,31 +17,34 @@ class SignUp extends Component {
     constructor(props) {
         super(props);
         this.state = initState;
+        this.routerRef = React.createRef();
     }
 
-    save = async (e) => {
+    handleChange = e => this.setState({[e.target.name]: e.target.value, error: ""});
+
+    save =  (e) => {
         e.preventDefault();
         const {username, password, fullname, phone, email, role, address} = this.state;
-
+        console.log("#####"+this.state);
         if (!username || !password || !fullname || !phone || !email || !role) {
-            return this.setState({error: "Fill all fields!"});
+            this.setState({ flash: { status: 'is-danger', msg: 'Fill all fields!' }});
         }
-        const res = await axios.post(
+        const res = axios.post(
             'http://localhost:8080/api/auth/signup',
             {username, password, email, role, address, fullname},
         ).catch((res) => {
             return {status: res.status, message: res.message}
         })
+        console.log(res);
         if (res.status === 200) {
             this.setState(initState);
             window.alert("User registered successfully");
             window.location.replace("/login");
         } else {
-            this.setState({ flash: { status: 'is-danger', msg: 'oh oh' }})
+            this.setState({ flash: { status: 'is-danger', msg: 'user already registered' }})
         }
     };
 
-    handleChange = e => this.setState({[e.target.name]: e.target.value, error: ""});
 
     render() {
         const {username, password, fullname, phone, email, role, address} = this.state;
@@ -118,7 +121,7 @@ class SignUp extends Component {
                                     onChange={this.handleChange}
                                 />
                             </div>
-                            <div className="select">
+                            <div className="field">
                                 <label className="label">Role: </label>
                                 <select name="role"
                                         className="input"
@@ -139,7 +142,7 @@ class SignUp extends Component {
                                 <button
                                     className="button is-primary is-outlined is-pulled-right"
                                     type="submit"
-                                    onClick={this.signup}
+                                    onClick={this.save}
                                 >
                                     Submit
                                 </button>

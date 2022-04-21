@@ -1,7 +1,9 @@
 package com.pm490.PM490.controller;
 
 import com.pm490.PM490.dto.OrderRequest;
+import com.pm490.PM490.model.User;
 import com.pm490.PM490.repository.OrderRepository;
+import com.pm490.PM490.service.CurrentUserService;
 import com.pm490.PM490.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,16 +19,21 @@ public class OrderController {
     OrderRepository orderRepository;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private CurrentUserService currentUserService;
 
     @GetMapping()
     public ResponseEntity<?> searchProduct() {
         return ResponseEntity.ok().body(orderRepository.findAll());
     }
 
+    @PreAuthorize("hasAuthority('CUSTOMER') or hasAuthority('ADMIN')")
     @PostMapping("/create")
     public ResponseEntity<?> newOrder(@RequestBody OrderRequest order) {
+
         try {
-            return ResponseEntity.status(HttpStatus.CREATED).body(orderService.save(order));
+            User user = currentUserService.findLoggedUser();
+            return ResponseEntity.status(HttpStatus.CREATED).body(orderService.save(order, user));
         } catch (RuntimeException exception) {
             return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body(exception.getMessage());
         }

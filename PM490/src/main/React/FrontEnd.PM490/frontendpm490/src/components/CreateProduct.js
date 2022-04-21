@@ -31,6 +31,7 @@ class CreateProduct extends Component {
      })
  }
     handleChange = e => this.setState({[e.target.name]: e.target.value, error: ""});
+
     save = async (e) => {
         e.preventDefault();
         const { name, color, idVendor,status,quantity, idCategory, price } = this.state;

@@ -40,8 +40,6 @@ class SignUp extends Component {
             this.setState(initState);
             window.alert("User registered successfully");
             window.location.replace("/login");
-        } else {
-            this.setState({ flash: { status: 'is-danger', msg: 'user already registered' }})
         }
     };
 

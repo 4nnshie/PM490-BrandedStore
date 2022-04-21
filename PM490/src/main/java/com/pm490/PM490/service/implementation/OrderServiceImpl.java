@@ -39,10 +39,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public OrderCart save(OrderRequest newOrder) throws RuntimeException {
-        User customer = currentUserService.findLoggedUser();
+    public OrderCart save(OrderRequest newOrder, User customer) throws RuntimeException {
+        //User customer = currentUserService.findLoggedUser();
         List<ItemList> items = itemListRepository.findByUserAndCreated(customer.getId());
-
+        System.out.println("########## "+items);
         // VALIDATE
         if(items.isEmpty()) {
             throw new RuntimeException("Nothing to order");
@@ -70,7 +70,6 @@ public class OrderServiceImpl implements OrderService {
         if(optionalOrder.isPresent()){
             orderCart.setDateOrdered(editedOrder.getDateOrdered());
             orderCart.setDateShipped(editedOrder.getDateShipped());
-            orderCart.setStatus(editedOrder.getStatus());
 
             orderCart = orderRepository.save(orderCart);
         }

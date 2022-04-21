@@ -1,34 +1,121 @@
 //./src/components/ShoppingCart.js
-import React, { Component } from "react";
-import React from "react";
+import React, {Component} from "react";
+
 import withContext from "../withContext";
 import CartItem from "./CartItem";
+import axios from "axios";
 
 const initState = {
     subtotal: 0,
     tax: 0,
-    total: 0
+    total: 0,
+    orderId: 0,
 };
 
 class ShoppingCart extends Component {
     constructor(props) {
         super(props);
         this.state = initState;
+        this.routerRef = React.createRef();
     }
 
     componentDidMount() {
         const {cart} = this.props.context;
         const cartKeys = Object.keys(cart || {});
         let subt = 0;
-        cartKeys.forEach(key => {subt += (cart[key].product.price * cart[key].amount)} );
-        let tx = subt* 0.07;
-        let tot = subt+ tx;
-        this.setState({subtotal:subt})
-        this.setState({tax : tx.toFixed(2)});
-        this.setState({total : tot});
+        cartKeys.forEach(key => {
+            subt += (cart[key].product.price * cart[key].amount)
+        });
+        let tx = subt * 0.07;
+        let tot = subt + tx;
+        this.setState({subtotal: subt})
+        this.setState({tax: tx.toFixed(2)});
+        this.setState({total: tot});
 
-        console.log("@@@@@@" + this.subtotal);
+        //console.log("@@@@@@" + this.subtotal);
         return cart;
+    }
+
+    checkout = async () => {
+        const {user} = this.props.context;
+        if (user) {
+            const {cart} = this.props.context;
+            const cartKeys = Object.keys(cart || {});
+            const {user} = this.props.context;
+
+            let res =  axios.all([
+                cartKeys.forEach(key => {
+                    axios.post(
+                        'http://localhost:8080/api/shoppingcart/add',
+                        {idProduct: cart[key].product.id, quantity: cart[key].amount},
+                        {
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + user.token
+                            }
+                        },
+                    ).catch((res) => {
+                        return {status: res.status, message: res.message}
+                    })
+                })]);
+            //console.log("### itemlist done" + res[cartKeys.length].status);
+            if (res) {
+                await this.createorder();
+                window.location.replace("/PaymentMethod");
+
+            }
+
+            //window.location.replace("/PaymentMethod");
+            return;
+        } else if (!user) {
+            window.location.replace("/login");
+            return;
+        }//with out login checkout will redirect to login page
+
+        const cart = this.state.cart;
+
+        const products = this.state.products.map(p => {
+            if (cart[p.name]) {
+                p.stock = p.stock - cart[p.name].amount;
+
+                axios.put(
+                    `http://localhost:8080/api/product/${p.id}`,
+                    {...p},
+                )
+            }
+            return p;
+        });
+
+        this.setState({products});
+        this.clearCart();
+    };
+
+    createorder = async () => {
+        const {user} = this.props.context;
+        let today = new Date();
+        let cDay = today.getDate()
+        let cMonth = today.getMonth() + 1
+        let cYear = today.getFullYear()
+        let todayDate = new Date().toISOString().slice(0, 10);
+        //let dateOrdered = cYear+'-'+cMonth+'-'+cDay;
+        //let dateShipped = dateOrdered.setDate(dateOrdered.getDate() + 3);
+        const res = await axios.post(
+            'http://localhost:8080/api/order/create',
+            {dateOrdered: todayDate, dateShipped: todayDate},
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + user.token
+                }
+            },
+        ).then(r => this.setState(r))
+        console.log("### order done");
+/*
+        if (res.status === 201) {
+            this.setState({orderId: res.data.id});
+            console.log("!!!" + this.state.orderId);
+        }
+*/
     }
 
     render() {
@@ -82,7 +169,7 @@ class ShoppingCart extends Component {
                                     {""}
                                     <button
                                         className="button is-success"
-                                        onClick={this.props.context.checkout}
+                                        onClick={this.checkout}
                                     >
                                         Checkout
                                     </button>

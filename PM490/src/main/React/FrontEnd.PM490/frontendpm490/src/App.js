@@ -62,33 +62,7 @@ export default class App extends Component {
         this.setState({cart});
     };
 
-    checkout=()=>{
-        if(this.state.user){
-            this.routerRef.current.history.push("/PaymentMethod");
-            return;
-        }
-        if(!this.state.user){
-            this.routerRef.current.history.push("/login");
-            return;
-        }//with out login checkout will redirect to login page
 
-        const cart=this.state.cart;
-
-        const products=this.state.products.map(p=>{
-            if(cart[p.name]){
-                p.stock=p.stock-cart[p.name].amount;
-
-                axios.put(
-                    `http://localhost:8080/api/product/${p.id}`,
-                    {...p},
-                )
-            }
-            return p;
-        });
-
-        this.setState({products});
-        this.clearCart();
-    };
 
     search = async (name, status, color, idVendor, idCategory) => {
         console.log({name,status, color, idVendor, idCategory});

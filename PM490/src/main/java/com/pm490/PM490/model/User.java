@@ -1,4 +1,4 @@
-//authon saruulgun
+//author saruulgun
 package com.pm490.PM490.model;
 
 import javax.persistence.*;

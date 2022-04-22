@@ -126,7 +126,7 @@ public class ReportServiceImpl implements ReportService {
             //create a private method that returns the link to the specific pdf file
             String fileLinke = getPdfFileLink(uploadPath.toString());
             // TODO COMMENT WHEN FINAL sending email
-            // sendEmail(vendorMap.get(key).getEmail(), fileLinke);
+             sendEmail(vendorMap.get(key).getEmail(), fileLinke);
         }
         return "";
     }

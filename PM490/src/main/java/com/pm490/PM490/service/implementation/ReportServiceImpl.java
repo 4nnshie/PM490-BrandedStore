@@ -88,7 +88,9 @@ public class ReportServiceImpl implements ReportService {
             reportDto.setId(item.getProduct().getId());
             reportDto.setColor(item.getProduct().getColor());
             reportDto.setName(item.getProduct().getName());
-            reportDto.setDescription(!(item.getProduct().getDescription().equals(null)) ? item.getProduct().getDescription() : "");
+            if(item.getProduct().getDescription() != null && !item.getProduct().getDescription().equals(null)) {
+                reportDto.setDescription(item.getProduct().getDescription());
+            }
             reportDto.setPrice(item.getProduct().getPrice());
             reportDto.setQuantity(item.getQuantity());
             reportDto.setStatus(item.getPurchaseStatus().name());
@@ -126,7 +128,7 @@ public class ReportServiceImpl implements ReportService {
             //create a private method that returns the link to the specific pdf file
             String fileLinke = getPdfFileLink(uploadPath.toString());
             // TODO COMMENT WHEN FINAL sending email
-            // sendEmail(vendorMap.get(key).getEmail(), fileLinke);
+             sendEmail(vendorMap.get(key).getEmail(), fileLinke);
         }
         return "";
     }

@@ -1,6 +1,6 @@
 //./src/components/ShoppingCart.js
 import React, { Component } from "react";
-//import React from "react";
+
 import withContext from "../withContext";
 import CartItem from "./CartItem";
 

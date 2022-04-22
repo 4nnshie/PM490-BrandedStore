@@ -13,10 +13,10 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
         implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
       ddl-auto: update
-
+#      ddl-auto=none:
 #    properties:
-#      hibernate:
-#      dialect: org.hibernate.dialect.MySQL8Dialect
+      hibernate:
+      dialect: org.hibernate.dialect.MySQL8Dialect
 
   security:
     jwt:
@@ -28,4 +28,4 @@ spring:
       email: "abccompany@gmail.com"
     tax: 7
   cron:
-    duration: 25000
+    duration: 250000000

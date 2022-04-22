@@ -1,3 +1,4 @@
+//authon saruulgun
 package com.pm490.PM490.model;
 
 import javax.persistence.*;

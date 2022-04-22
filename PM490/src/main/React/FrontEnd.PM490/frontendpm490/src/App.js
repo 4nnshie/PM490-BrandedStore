@@ -13,6 +13,7 @@ import SearchProducts from './components/SearchProducts';
 import ShoppingCart from "./components/ShoppingCart";
 import PaymentMethod from "./components/PaymentMethod";
 import UsersManagement from "./components/UsersManagement";
+import Finance from "./components/Finance";
 
 export default class App extends Component {
     constructor(props) {
@@ -214,7 +215,11 @@ export default class App extends Component {
                                         User Management
                                     </Link>
                                 )}
-                                {!this.state.user ? (
+                                {this.state.user && this.state.user.role === "ADMIN" && (
+                                    <Link to="/finance" className="navbar-item">
+                                        Finance
+                                    </Link>
+                                )}                                {!this.state.user ? (
                                     <Link to="/login" className="navbar-item">
                                         Login
                                     </Link>
@@ -224,7 +229,6 @@ export default class App extends Component {
                                     </Link>
 
                                 )}
-
                             </div>
                         </nav>
                         <SearchProducts />
@@ -237,6 +241,7 @@ export default class App extends Component {
                             <Route exact path="/products" component={ProductList} />
                             <Route exact path="/ShoppingCart" component={ShoppingCart}/>
                             <Route exact path="/PaymentMethod" component={PaymentMethod}/>
+                            <Route exact path="/finance" component={Finance}/>
                         </Switch>
                     </div>
                 </Router>

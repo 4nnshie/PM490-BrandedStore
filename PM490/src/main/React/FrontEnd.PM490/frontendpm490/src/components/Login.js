@@ -1,4 +1,4 @@
-//Angie
+//author Angie
 import React, { Component } from "react";
 import {Link, Redirect, Route, Switch} from "react-router-dom";
 

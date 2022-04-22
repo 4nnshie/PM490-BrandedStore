@@ -14,10 +14,6 @@ const initState = {
 class UserDetail extends Component {
     constructor(props) {
         super(props);
-        console.log("szdaaaa");
-        console.log(this.props.testvalue)
-        console.log(id)
-        console.log("szdaaaa");
     }
 
     async componentDidMount() {

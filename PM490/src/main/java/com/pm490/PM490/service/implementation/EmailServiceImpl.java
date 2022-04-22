@@ -33,7 +33,7 @@ public class EmailServiceImpl implements EmailService {
             {
                 protected PasswordAuthentication getPasswordAuthentication()
                 {
-                    return new PasswordAuthentication("${springboot.env.abcemail}", "1qaz@WSX3edc");
+                    return new PasswordAuthentication("bolt.iowa@gmail.com", "1qaz@WSX3edc");
                 }
             });
             Message msg = new MimeMessage(session);

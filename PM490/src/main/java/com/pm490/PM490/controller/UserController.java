@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
-
+@CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
 
     @Autowired
@@ -63,6 +63,7 @@ public class UserController {
                 .map(user -> {
                     user.setUsername(updateUser.getUsername());
                     user.setRole(updateUser.getRole());
+                    user.setStatus(updateUser.getStatus());
                     return userRepository.save(user);
                 })
                 .orElseGet(() -> {

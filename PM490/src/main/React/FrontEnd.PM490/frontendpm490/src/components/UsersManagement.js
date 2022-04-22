@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import withContext from "../withContext";
 import axios from 'axios';
+import {Link} from 'react-router-dom';
 
 const initState = {
     userlogged: null,
@@ -31,13 +32,16 @@ class UsersManagement extends Component {
     }
 
     deleteUser = async (id) => {
-        const {user} = this.props.context;
-        const res = await axios.delete(
-            'http://localhost:8080/api/user/user/' + id,
-            {
+        const { user } = this.props.context;
+
+        const url = `http://localhost:8080/api/user/user/${id}`;
+        const header = { headers: { 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + user.token
             }
-        ).then(response => this.setState('Delete done'))
+        };
+
+        const res = axios.delete(url, header)
+            .then(response => this.setState('Delete done'))
             .catch(error => {
                 console.log(error.message);
                 return {status: 401, message: error}
@@ -51,6 +55,29 @@ class UsersManagement extends Component {
     editUser = async (id, user) => {
 
     }
+
+    desableEnableUser = (id, userEdit, status) => {
+        userEdit.status = status;
+
+        const { user } = this.props.context;
+
+        const url = `http://localhost:8080/api/user/user/${id}`;
+        const header = { headers: { 'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + user.token
+            }
+        };
+
+        const res = axios.put(url, userEdit, header)
+            .then(response => this.setState('Update done'))
+            .catch(error => {
+                console.log(error.message);
+                return {status: 401, message: error}
+            })
+        if (res.status == 200) {
+            alert('Successful');
+        };
+    };
+
     addUser = async (e) => {
         e.preventDefault();
         const {username, password, fullname, phone, email, address, role, status} = this.state;
@@ -184,6 +211,17 @@ class UsersManagement extends Component {
                     </form>
 
                     <br></br>
+                    <button
+                        type="button"
+                        onClick={(e) => {
+                            e.preventDefault();
+                            window.location.replace("/userCreate");
+                        }}
+                    className="btn btn-info"
+                    > Create user</button>
+                    <br></br>
+                    <br></br>
+
                     <div className="row">
                         <table class="table is-bordered ">
                             <thead>
@@ -213,9 +251,15 @@ class UsersManagement extends Component {
                                             <td> {user.role}</td>
                                             <td> {user.status}</td>
                                             <td>
-                                                <button onClick={() => this.editUser(user.id, user)}
-                                                        className="btn btn-info">Update
+                                                <button onClick={() => this.desableEnableUser(user.id, user, user.status === "INACTIVE" ? "ACTIVE" : "INACTIVE")}
+                                                        className="btn btn-info">{ (user.status == "ACTIVE") ? 'Disable' : 'Enable' }
                                                 </button>
+                                                {/*<Link className="btn-item auction-btn mr-2" to={`/UserDetail/${user.id}`}>*/}
+                                                {/*    Details*/}
+                                                {/*</Link>*/}
+                                                <Link to="/UserDetail" className="navbar-item" params={{ 'testvalue': "hello" }}>
+                                                    UserDetail
+                                                </Link>
                                                 <button style={{marginLeft: "10px"}}
                                                         onClick={() => this.deleteUser(user.id)}
                                                         className="btn btn-danger">Delete

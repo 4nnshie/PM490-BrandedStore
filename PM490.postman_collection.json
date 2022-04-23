@@ -1,0 +1,1078 @@
+{
+	"info": {
+		"_postman_id": "b0b403c2-d4d2-43db-b798-b5073a301b2b",
+		"name": "PM490",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Payment",
+			"item": [
+				{
+					"name": "PaymentRequest",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"paymentMethod\": {\n        \"id\": 4,\n        \"role\": \"CUSTOMER\",\n        \"type\": \"MASTER\",\n        \"fullname\": \"SAM\",\n        \"number\": 12121233000,\n        \"expireDate\": null,\n        \"cvv\": 123,\n        \"zipcode\": 525556\n    },\n    \"orderCart\": {\n        \"id\": 15,\n        \"customer\": {\n            \"id\": 3,\n            \"username\": \"customer\",\n            \"password\": \"$2a$10$1LORNXa9tYyfY0psP6S2Tuv4ZeZIwBrcg8uL6TpuYQ96nSM49IcRi\",\n            \"fullName\": null,\n            \"status\": null,\n            \"phone\": 1233211234,\n            \"email\": \"customer@gmail.com\",\n            \"role\": \"CUSTOMER\",\n            \"address\": null,\n            \"itemList\": [],\n            \"roles\": [\n                \"CUSTOMER\"\n            ]\n        },\n        \"dateOrdered\": \"2022-04-12\",\n        \"dateShipped\": \"2022-01-01\",\n        \"status\": \"ORDERED\",\n        \"items\": [\n            {\n                \"id\": 13,\n                \"user\": {\n                    \"id\": 3,\n                    \"username\": \"customer\",\n                    \"password\": \"$2a$10$1LORNXa9tYyfY0psP6S2Tuv4ZeZIwBrcg8uL6TpuYQ96nSM49IcRi\",\n                    \"fullName\": null,\n                    \"status\": null,\n                    \"phone\": 1233211234,\n                    \"email\": \"customer@gmail.com\",\n                    \"role\": \"CUSTOMER\",\n                    \"address\": null,\n                    \"itemList\": [],\n                    \"roles\": [\n                        \"CUSTOMER\"\n                    ]\n                },\n                \"product\": {\n                    \"id\": 8,\n                    \"name\": \"AppleWatch\",\n                    \"color\": \"gold\",\n                    \"vendor\": {\n                        \"id\": 6,\n                        \"username\": \"vendor\",\n                        \"password\": \"$2a$10$lljWq6rC5k87EgYJRJtd2enIuI9uu87ZGBR2xikdzWmU6YuERbLG2\",\n                        \"fullName\": null,\n                        \"status\": null,\n                        \"phone\": 1233211234,\n                        \"email\": \"vendor@gmail.com\",\n                        \"role\": \"VENDOR\",\n                        \"address\": null,\n                        \"itemList\": [],\n                        \"roles\": [\n                            \"VENDOR\"\n                        ]\n                    },\n                    \"status\": \"NOTAPPROVED\",\n                    \"quantity\": 10,\n                    \"category\": {\n                        \"id\": 1,\n                        \"name\": \"sdfjlkf\"\n                    },\n                    \"price\": 50.0,\n                    \"itemList\": [],\n                    \"description\": null\n                },\n                \"quantity\": 2,\n                \"purchaseStatus\": \"ORDERED\",\n                \"total\": 1.0\n            },\n            {\n                \"id\": 14,\n                \"user\": {\n                    \"id\": 3,\n                    \"username\": \"customer\",\n                    \"password\": \"$2a$10$1LORNXa9tYyfY0psP6S2Tuv4ZeZIwBrcg8uL6TpuYQ96nSM49IcRi\",\n                    \"fullName\": null,\n                    \"status\": null,\n                    \"phone\": 1233211234,\n                    \"email\": \"customer@gmail.com\",\n                    \"role\": \"CUSTOMER\",\n                    \"address\": null,\n                    \"itemList\": [],\n                    \"roles\": [\n                        \"CUSTOMER\"\n                    ]\n                },\n                \"product\": {\n                    \"id\": 7,\n                    \"name\": \"Rolex\",\n                    \"color\": \"gold\",\n                    \"vendor\": {\n                        \"id\": 6,\n                        \"username\": \"vendor\",\n                        \"password\": \"$2a$10$lljWq6rC5k87EgYJRJtd2enIuI9uu87ZGBR2xikdzWmU6YuERbLG2\",\n                        \"fullName\": null,\n                        \"status\": null,\n                        \"phone\": 1233211234,\n                        \"email\": \"vendor@gmail.com\",\n                        \"role\": \"VENDOR\",\n                        \"address\": null,\n                        \"itemList\": [],\n                        \"roles\": [\n                            \"VENDOR\"\n                        ]\n                    },\n                    \"status\": \"NOTAPPROVED\",\n                    \"quantity\": 10,\n                    \"category\": {\n                        \"id\": 1,\n                        \"name\": \"sdfjlkf\"\n                    },\n                    \"price\": 50.0,\n                    \"itemList\": [],\n                    \"description\": null\n                },\n                \"quantity\": 2,\n                \"purchaseStatus\": \"ORDERED\",\n                \"total\": 1.0\n            }\n        ]\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/payment",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"payment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Show orders",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/order",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dateOrdered\": \"2022-04-12\",\n    \"dateShipped\": \"2022-01-01\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/order/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Show order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/order/show/14",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"show",
+								"14"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update order",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dateOrdered\": \"2022-04-12\",\n    \"dateShipped\": \"2022-01-01\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/order/cancel/14",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"order",
+								"cancel",
+								"14"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "user sign up path",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\": \"admin1@admin.com\",\n    \"username\": \"admin1\",\n    \"password\": \"12345\",\n    \"role\": \"ADMIN\",\n    \"phone\" : 1234567890\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/signup",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "user sign in path",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.accessToken);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"customer\",\n    \"password\": \"customer\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/auth/signin",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "User registration",
+			"item": [
+				{
+					"name": "User index",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"test name\",\n    \"email\": \"testemail\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/users",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User register",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"test name\",\n    \"email\": \"testemail\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/user",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User detail",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/user/3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"user",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"updatedusername\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/user/3",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"user",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "User delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/user/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"user",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Item list",
+			"item": [
+				{
+					"name": "Get Shopping Cart Items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/shoppingcart/getItems",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"shoppingcart",
+								"getItems"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Item (Product) to Shopping Cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\": 1,\n    \"quantity\": 2,\n    \"total\": 1,\n    \"product\": {\n            \"id\": 1\n        }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/shoppingcart/add",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"shoppingcart",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Items",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"productId\": 1,\n    \"quantity\": 3,\n    \"product\": {\n            \"id\": 1\n        }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/shoppingcart/update/268",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"shoppingcart",
+								"update",
+								"268"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete from Cart",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/shoppingcart/deleteItem/21",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"shoppingcart",
+								"deleteItem",
+								"21"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PyamentMethod",
+			"item": [
+				{
+					"name": "get pyament methods by user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/paymentmethod/index",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paymentmethod",
+								"index"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create pyament method with user",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"role\": \"CUSTOMER\",\n    \"type\": \"MASTER\",\n    \"fullname\": \"SAM\",\n    \"number\": 12121233,\n    \"cvv\": \"123\",\n    \"zipcode\": 525556\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/paymentmethod/create",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paymentmethod",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"role\": \"CUSTOMER\",\n    \"type\": \"MASTER\",\n    \"fullname\": \"SAM-XXX-0123\",\n    \"number\": 12121233,\n    \"cvv\": \"123\",\n    \"zipcode\": 525556\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/paymentmethod/update/44",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paymentmethod",
+								"update",
+								"44"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/paymentmethod/delete/48",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"paymentmethod",
+								"delete",
+								"48"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Email",
+			"item": [
+				{
+					"name": "SendEmailTest",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"fromAddress\": \"lgxskinlg@gmail.com\",\n    \"toAddress\": \"lgxskinlg@gmail.com\",\n    \"mailSubject\": \"Test\",\n    \"bodyText\": \"Test email from ABC company\",\n    \"attachFileAddress\": \"\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/email/sendemail",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"email",
+								"sendemail"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Category",
+			"item": [
+				{
+					"name": "Category get all",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/category",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"category"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product Management",
+			"item": [
+				{
+					"name": "Product findAll approved",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/product/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product save",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Rolex\",\r\n    \"color\" : \"gold\",\r\n    \"idVendor\" : 42,\r\n    \"status\" : \"NOTAPPROVED\",\r\n    \"quantity\" : 10,\r\n    \"idCategory\" : 1,\r\n    \"price\": 50.00\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/product/saveproduct",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"saveproduct"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"Rolex\",\r\n    \"color\" : \"silver\",\r\n    \"idVendor\" : 3,\r\n    \"status\" : \"APPROVED\",\r\n    \"quantity\" : 10,\r\n    \"idCategory\" : 3,\r\n    \"price\": 50.00\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/product/updateproduct/22",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"updateproduct",
+								"22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Product Delete",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/product/deleteproduct/22",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"deleteproduct",
+								"22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Advance Search",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"rolex\",\r\n    \"color\": \"\",\r\n    \"idVendor\":\"\",\r\n    \"idCategory\": \"3\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/product/advancesearch",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"advancesearch"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "products of logged vendor",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/product/mycreatedproducts",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"mycreatedproducts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findAll",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/product/all",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "admin approve products mass",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/product/approve",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"product",
+								"approve"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "token",
+			"value": "token"
+		}
+	]
+}

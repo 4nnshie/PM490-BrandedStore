@@ -1,3 +1,4 @@
+//author saruulgun, angie
 package com.pm490.PM490.model;
 
 import lombok.*;

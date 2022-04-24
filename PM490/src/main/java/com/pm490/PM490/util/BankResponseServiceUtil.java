@@ -1,4 +1,4 @@
-//author saruulgun
+//author munkdala, oyunbold
 package com.pm490.PM490.util;
 
 import org.springframework.stereotype.Component;

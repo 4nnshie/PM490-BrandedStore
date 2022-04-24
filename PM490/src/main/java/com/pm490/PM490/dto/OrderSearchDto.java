@@ -1,4 +1,4 @@
-//author saruulgun
+//author saruulgun, oyunbold
 package com.pm490.PM490.dto;
 
 import com.pm490.PM490.model.PurchaseStatus;

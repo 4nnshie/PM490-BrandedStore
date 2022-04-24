@@ -1,5 +1,4 @@
-
-//author saruulgun
+//author saruulgun, oyunbold
 package com.pm490.PM490.repository;
 
 import com.pm490.PM490.model.OrderCart;

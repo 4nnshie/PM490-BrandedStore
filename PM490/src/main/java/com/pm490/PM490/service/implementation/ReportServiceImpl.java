@@ -1,4 +1,4 @@
-//author saruulgun
+//author saruulgun, angie
 package com.pm490.PM490.service.implementation;
 
 import com.pm490.PM490.dto.EmailDto;
